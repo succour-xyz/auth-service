@@ -1,8 +1,10 @@
-const info = (
-  namespace: { INDEX_NAMESPACE: string },
-  message: string,
-  object?: any,
-) => {
+/**
+ * Logs Info level
+ * @param namespace
+ * @param message
+ * @param object???
+ */
+const info = (namespace: string, message: string, object?: any) => {
   if (object) {
     console.info(
       `[${getTimeStamp()}] [INFO] [${namespace}] ${message}`,
@@ -13,6 +15,12 @@ const info = (
   }
 };
 
+/**
+ * Logs Warning level
+ * @param namespace
+ * @param message
+ * @param object
+ */
 const warn = (namespace: string, message: string, object?: any) => {
   if (object) {
     console.warn(
@@ -24,11 +32,13 @@ const warn = (namespace: string, message: string, object?: any) => {
   }
 };
 
-const error = (
-  namespace: { INDEX_NAMESPACE: string },
-  message: string,
-  object?: any,
-) => {
+/**
+ * Logs Error level
+ * @param namespace
+ * @param message
+ * @param object?
+ */
+const error = (namespace: string, message: string, object?: any) => {
   if (object) {
     console.error(
       `[${getTimeStamp()}] [ERROR] [${namespace}] ${message}`,
@@ -38,7 +48,12 @@ const error = (
     console.error(`[${getTimeStamp()}] [ERROR] [${namespace}] ${message}`);
   }
 };
-
+/**
+ * Logs Debug level
+ * @param namespace
+ * @param message
+ * @param object
+ */
 const debug = (namespace: string, message: string, object?: any) => {
   if (object) {
     console.debug(

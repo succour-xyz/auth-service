@@ -3,9 +3,9 @@ import http from 'http';
 import config from './config/config';
 import logging from './config/logging';
 import routes from './routes';
-import SERVER_NAMESPACE from './constants';
+import constants from './constants';
 
-const NAMESPACE = SERVER_NAMESPACE;
+const NAMESPACE = constants.SERVER_NAMESPACE;
 const router = express();
 
 /** Log the request */
