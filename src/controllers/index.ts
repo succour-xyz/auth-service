@@ -1,10 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import logging from '../config/logging';
 import { Query, Connect } from '../config/mysql';
-import INDEX_NAMESPACE from '../constants';
+import constants from '../constants';
 
-const NAMESPACE: { INDEX_NAMESPACE: string } = INDEX_NAMESPACE;
+const NAMESPACE: string = constants.INDEX_NAMESPACE;
 
+/**
+ * ServerHealthCheck Route
+ * @param req
+ * @param res
+ * @param next
+ */
 const serverHealthCheck = async (
   req: Request,
   res: Response,
