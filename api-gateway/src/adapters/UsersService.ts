@@ -15,6 +15,11 @@ export interface UserSession {
 }
 
 export default class UsersService {
+  /**
+   * Create User Function
+   * @param password
+   * @param username
+   */
   static async createUser({
     password,
     username,
@@ -30,6 +35,11 @@ export default class UsersService {
     return body;
   }
 
+  /**
+   * Create User session Function
+   * @param password
+   * @param username
+   */
   static async createUserSession({
     password,
     username,
@@ -45,6 +55,10 @@ export default class UsersService {
     return body;
   }
 
+  /**
+   * delete user session function
+   * @param sessionId
+   */
   static async deleteUserSession({ sessionId }: { sessionId: string }) {
     const body = await got
       .delete(`${config.USERS_SERVICE_URI}/sessions/${sessionId}`)
@@ -52,6 +66,10 @@ export default class UsersService {
     return body;
   }
 
+  /**
+   * fetch user function
+   * @param userId
+   */
   static async fetchUser({ userId }: { userId: string }): Promise<User | null> {
     const body = await got
       .get(`${config.USERS_SERVICE_URI}/users/${userId}`)
@@ -60,6 +78,10 @@ export default class UsersService {
     return <User>body;
   }
 
+  /**
+   * fetch user session function
+   * @param sessionId
+   */
   static async fetchUserSession({
     sessionId,
   }: {

@@ -7,8 +7,9 @@ import resolvers from "../graphql/resolvers";
 import config from "../config/default";
 import schema from "../graphql/schema";
 import injectSession from "./middleware/injectSession";
+import helmet from "helmet";
 
-const startServer: any = () => {
+const startServer = () => {
   const apolloServer = new ApolloServer({
     context: (a) => a,
     formatError: formatGraphQLErrors,
@@ -26,11 +27,12 @@ const startServer: any = () => {
     })
   );
 
-  app.use(injectSession);
-  apolloServer.applyMiddleware({ app, cors: false, path: "/graphql" });
+  apolloServer.applyMiddleware({ app, path: "/graphql", cors: false });
 
-  app.listen(config.PORT, "0.0.0.0", () => {
-    console.info(`API gateway listening on ${config.PORT}`);
+  app.use(injectSession);
+
+  app.listen({ port: config.PORT }, () => {
+    console.log(`🚀  Server ready at ${config.PORT}`);
   });
 };
 
