@@ -1,5 +1,13 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
+/**
+ * Entity User
+ */
 @Entity("users")
 export default class User {
   @PrimaryGeneratedColumn("uuid")

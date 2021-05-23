@@ -5,7 +5,24 @@
   "scripts": {
     "watch": "ts-node-dev --respawn index.dev.ts",
     "db:migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
-    "db:migrate:undo": "ts-node ./node_modules/typeorm/cli.js migration:revert"
+    "db:migrate:undo": "ts-node ./node_modules/typeorm/cli.js migration:revert",
+    "format": "prettier --write .",
+    "dev": "tsnd --respawn --files -r @babel/register --inspect -- src/index.ts",
+    "build": "babel ./src -d ./dist --extensions .ts --copy-files",
+    "typecheck": "tsc",
+    "start": "node dist/index.js",
+    "lint:base": "eslint --ext .js,.json,.ts",
+    "lint": "yarn lint:base src"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js,json}": [
+      "yarn lint:base --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn typecheck && lint-staged"
+    }
   },
   "devDependencies": {
     "@piyush97/eslint-config": "^1.0.0",
@@ -15,9 +32,25 @@
     "@types/express": "^4.17.11",
     "@types/node": "^15.6.0",
     "module-alias": "^2.2.2",
+    "prettier": "^2.3.0",
     "ts-node": "^9.1.1",
     "ts-node-dev": "^1.1.6",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-typescript": "^7.12.7",
+    "@babel/register": "^7.12.10",
+    "@types/dotenv": "^8.2.0",
+    "@types/mysql": "^2.15.18",
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "husky": "^4.3.6",
+    "lint-staged": "^10.5.3",
   },
   "dependencies": {
     "config": "^3.3.6",
