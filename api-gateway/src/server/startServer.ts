@@ -6,6 +6,7 @@ import cors from "cors";
 import resolvers from "../graphql/resolvers";
 import config from "../config/default";
 import schema from "../graphql/schema";
+import injectSession from "./middleware/injectSession";
 
 const startServer: any = () => {
   const apolloServer = new ApolloServer({
@@ -25,6 +26,7 @@ const startServer: any = () => {
     })
   );
 
+  app.use(injectSession);
   apolloServer.applyMiddleware({ app, cors: false, path: "/graphql" });
 
   app.listen(config.PORT, "0.0.0.0", () => {
