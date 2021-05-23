@@ -31,7 +31,7 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-typescript": "^7.12.7",
     "@babel/register": "^7.12.10",
-    "@piyush97/eslint-config": "^1.0.0",
+    "@piyush97/eslint-config": "^1.0.1",
     "@piyush97/prettier-config": "^1.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/config": "^0.0.38",
