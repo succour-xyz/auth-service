@@ -1,4 +1,4 @@
-import { ResolverContext } from "../../resolvers/types";
+import { ResolverContext } from "../../types";
 
 interface Args {
   me: boolean;

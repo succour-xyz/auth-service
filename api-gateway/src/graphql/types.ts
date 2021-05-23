@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { UserSession } from "../../adapters/UsersService";
+import { UserSession } from "../adapters/UsersService";
 
 export interface ResolverContext {
   req: Request;
