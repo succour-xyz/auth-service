@@ -1,18 +1,16 @@
-import config from "config";
+import config from "../config/default";
 import dayjs from "dayjs";
 import { Express } from "express";
 import omit from "lodash.omit";
 import { getConnection, getRepository } from "typeorm";
 
-import User from "../db/entities/Users";
+import User from "../db/entities/User";
 import UserSession from "../db/entities/UserSession";
 import generateUUID from "../helpers/generateUUID";
 import hashPassword from "../helpers/hashPassword";
 import passwordCompareSync from "../helpers/passwordCompareSync";
 
-const USER_SESSION_EXPIRY_HOURS = <number>(
-  config.get("USER_SESSION_EXPIRY_HOURS")
-);
+const USER_SESSION_EXPIRY_HOURS = config.USER_SESSION_EXPIRY_HOURS;
 
 const setupRoutes = (app: Express) => {
   const connection = getConnection();

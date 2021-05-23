@@ -1,7 +1,7 @@
 import config from "../config/default";
 import { Connection, createConnection } from "typeorm";
 
-import User from "./entities/Users";
+import User from "./entities/User";
 import UserSession from "./entities/UserSession";
 
 let connection: Connection;
@@ -13,7 +13,7 @@ export const initConnection = async () => {
   connection = await createConnection({
     entities: [User, UserSession],
     type: "mysql",
-    url: <string>config.USERS_SERVICE_DB_URL,
+    url: config.USERS_SERVICE_DB_URL,
   });
 };
 
