@@ -11,7 +11,6 @@ const injectSession = async (
       sessionId: req.cookies.userSessionId,
     });
     res.locals.userSession = userSession;
-    console.log("userSession Injected", userSession);
     return next();
   }
 };
