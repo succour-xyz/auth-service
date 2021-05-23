@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "watch": "ts-node-dev --respawn index.dev.ts"
+    "watch": "ts-node-dev --respawn index.dev.ts",
+    "db:migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
+    "db:migrate:undo": "ts-node ./node_modules/typeorm/cli.js migration:revert"
   },
   "devDependencies": {
     "@piyush97/eslint-config": "^1.0.0",
