@@ -1,6 +1,6 @@
 import { GraphQLError } from "graphql";
 
-const formatGraphQLErrors = (error: GraphQLError) => {
+const formatGraphQLErrors: any = (error: GraphQLError) => {
   // @ts-ignore
   const errorDetails = error.originalError?.response?.body;
 

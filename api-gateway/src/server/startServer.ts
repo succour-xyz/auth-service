@@ -7,7 +7,7 @@ import resolvers from "../graphql/resolvers";
 import config from "../config/default";
 import schema from "../graphql/schema";
 
-const startServer = () => {
+const startServer: any = () => {
   const apolloServer = new ApolloServer({
     context: (a) => a,
     formatError: formatGraphQLErrors,
