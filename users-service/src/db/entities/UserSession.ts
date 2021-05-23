@@ -5,20 +5,17 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 
-/**
- * Entity User
- */
-@Entity("users")
-export default class User {
+@Entity("userSessions")
+export default class UserSession {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column()
-  username!: string;
-
-  @Column({ select: false })
-  passwordHash!: string;
+  @Column("char", { length: 36 })
+  userId!: string;
 
   @CreateDateColumn()
   createdAt!: string;
+
+  @Column("datetime")
+  expiresAt!: string;
 }
