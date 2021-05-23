@@ -1,10 +1,14 @@
 /**
  * Logs Info level
- * @param namespace
- * @param message
- * @param object???
+ * @param namespace - the Namespace.
+ * @param message - the message.
+ * @param object - any object or data to show
  */
-const info = (namespace: string, message: string, object?: any) => {
+const info: (namespace: string, message: string, object?: any) => void = (
+  namespace: string,
+  message: string,
+  object?: any
+) => {
   if (object) {
     console.info(
       `[${getTimeStamp()}] [INFO] [${namespace}] ${message}`,
@@ -17,11 +21,15 @@ const info = (namespace: string, message: string, object?: any) => {
 
 /**
  * Logs Warning level
- * @param namespace
- * @param message
- * @param object
+ * @param namespace - the Namespace.
+ * @param message - the message.
+ * @param object - any object or data to show
  */
-const warn = (namespace: string, message: string, object?: any) => {
+const warn: (namespace: string, message: string, object?: any) => void = (
+  namespace: string,
+  message: string,
+  object?: any
+) => {
   if (object) {
     console.warn(
       `[${getTimeStamp()}] [WARN] [${namespace}] ${message}`,
@@ -34,11 +42,15 @@ const warn = (namespace: string, message: string, object?: any) => {
 
 /**
  * Logs Error level
- * @param namespace
- * @param message
- * @param object?
+ * @param namespace - the Namespace.
+ * @param message - the message.
+ * @param object - any object or data to show
  */
-const error = (namespace: string, message: string, object?: any) => {
+const error: (namespace: string, message: string, object?: any) => void = (
+  namespace: string,
+  message: string,
+  object?: any
+) => {
   if (object) {
     console.error(
       `[${getTimeStamp()}] [ERROR] [${namespace}] ${message}`,
@@ -50,11 +62,15 @@ const error = (namespace: string, message: string, object?: any) => {
 };
 /**
  * Logs Debug level
- * @param namespace
- * @param message
- * @param object
+ * @param namespace - the Namespace.
+ * @param message - the message.
+ * @param object - any object or data to show
  */
-const debug = (namespace: string, message: string, object?: any) => {
+const debug: (namespace: string, message: string, object?: any) => void = (
+  namespace: string,
+  message: string,
+  object?: any
+) => {
   if (object) {
     console.debug(
       `[${getTimeStamp()}] [DEBUG] [${namespace}] ${message}`,
@@ -64,7 +80,9 @@ const debug = (namespace: string, message: string, object?: any) => {
     console.debug(`[${getTimeStamp()}] [DEBUG] [${namespace}] ${message}`);
   }
 };
-
+/**
+ * gets the timestamp
+ */
 const getTimeStamp = (): string => {
   return new Date().toISOString();
 };
