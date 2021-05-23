@@ -5,6 +5,12 @@ interface Args {
   me: boolean;
 }
 
+/**
+ * Delete userSession resolver
+ * @param obj
+ * @param args
+ * @param context
+ */
 const deleteUserSessionResolver = async (
   obj: any,
   args: Args,

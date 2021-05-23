@@ -6,6 +6,13 @@ interface Args {
   username: string;
 }
 
+/**
+ * Create user session resolver
+ * @param obj
+ * @param password
+ * @param username
+ * @param context
+ */
 const createUserSessionResolver = async (
   obj: any,
   { password, username }: Args,
