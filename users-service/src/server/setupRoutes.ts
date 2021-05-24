@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021.  Piyush Mehta for Succour.xyz
+ */
+
 import config from "../config/default";
 import dayjs from "dayjs";
 import e, { Express } from "express";

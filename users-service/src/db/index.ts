@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021.  Piyush Mehta for Succour.xyz
+ */
+
 import config from "../config/default";
 import { Connection, createConnection } from "typeorm";
 

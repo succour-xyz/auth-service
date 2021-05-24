@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021.  Piyush Mehta for Succour.xyz
+ */
+
 /**
  * Logs Info level
  * @param namespace - the Namespace.
