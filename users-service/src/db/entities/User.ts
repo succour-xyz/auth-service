@@ -33,12 +33,12 @@ export default class User {
   @Column()
   email!: string;
 
-  @Column()
-  location!: string;
+  @Column({ nullable: true })
+  location: string;
 
   @Column()
   gender!: string;
 
-  @Column()
-  photo!: string;
+  @Column({ nullable: true })
+  photo: string;
 }

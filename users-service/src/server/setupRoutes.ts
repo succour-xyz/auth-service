@@ -97,7 +97,14 @@ const setupRoutes: (app: e.Express) => void = (app: Express) => {
   });
 
   app.post("/users", async (req, res, next) => {
-    if (!req.body.username || !req.body.password) {
+    if (
+      !req.body.username ||
+      !req.body.password ||
+      !req.body.name ||
+      !req.body.phoneNumber ||
+      !req.body.email ||
+      !req.body.gender
+    ) {
       return next(new Error("Invalid body!"));
     }
 
@@ -106,6 +113,12 @@ const setupRoutes: (app: e.Express) => void = (app: Express) => {
         id: generateUUID(),
         passwordHash: hashPassword(req.body.password),
         username: req.body.username,
+        name: req.body.name,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
+        location: req.body.location === undefined ? "null" : req.body.location,
+        gender: req.body.gender,
+        photo: req.body.photo === undefined ? "null" : req.body.photo,
       };
 
       await connection
