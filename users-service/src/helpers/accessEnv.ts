@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021.  Piyush Mehta for Succour.xyz
+ */
+
 const cache: { [key: string]: string } = {};
 /**
  * Access Environment Helper

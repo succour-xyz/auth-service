@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021.  Piyush Mehta for Succour.xyz
+ */
+
 import bcrypt from "bcryptjs";
 
 const hashPassword = (password: string) =>

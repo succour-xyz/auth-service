@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021.  Piyush Mehta for Succour.xyz
+ */
+
 import config from "../config/default";
 import { Connection, createConnection } from "typeorm";
 
@@ -9,7 +13,7 @@ let connection: Connection;
 /**
  * Initializes connection
  */
-export const initConnection = async () => {
+export const initConnection: () => Promise<void> = async () => {
   connection = await createConnection({
     entities: [User, UserSession],
     type: "mysql",
