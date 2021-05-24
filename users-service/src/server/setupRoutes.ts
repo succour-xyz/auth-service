@@ -96,7 +96,7 @@ const setupRoutes: (app: e.Express) => void = (app: Express) => {
     }
   });
 
-  app.post("/users", async (req, res, next) => {
+  app.post("/sign-up", async (req, res, next) => {
     if (
       !req.body.username ||
       !req.body.password ||
@@ -133,18 +133,6 @@ const setupRoutes: (app: e.Express) => void = (app: Express) => {
       return next(err);
     }
   });
-
-  // app.get("/profiles/:userId", async (req, res, next) => {
-  //   try {
-  //     const user = await userRepository.findOne(req.params.userId);
-  //
-  //     if (!user) return next(new Error("Invalid user ID!"));
-  //
-  //     return res.json(user);
-  //   } catch (err) {
-  //     return next(err);
-  //   }
-  // });
 
   app.get("/profiles", async (req, res, next) => {
     try {

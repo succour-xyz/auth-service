@@ -74,7 +74,24 @@ export class Users1610105419073 implements MigrationInterface {
       "users",
       new TableIndex({
         columnNames: ["username"],
+        isUnique: true,
         name: "unique_username",
+      })
+    );
+    await queryRunner.createIndex(
+      "users",
+      new TableIndex({
+        columnNames: ["email"],
+        isUnique: true,
+        name: "unique_email",
+      })
+    );
+    await queryRunner.createIndex(
+      "users",
+      new TableIndex({
+        columnNames: ["phoneNumber"],
+        isUnique: true,
+        name: "unique_phoneNumber",
       })
     );
   }
