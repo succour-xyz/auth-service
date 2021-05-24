@@ -1,4 +1,10 @@
-import { MigrationInterface, QueryRunner, Table, TableIndex } from "typeorm";
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+  TableIndex,
+} from "typeorm";
 
 /**
  * Users Migration
@@ -29,6 +35,36 @@ export class Users1610105419073 implements MigrationInterface {
             name: "createdAt",
             type: "timestamp",
           },
+          {
+            length: "36",
+            name: "name",
+            type: "varchar",
+          },
+          {
+            length: "15",
+            name: "phoneNumber",
+            type: "varchar",
+          },
+          {
+            length: "45",
+            name: "email",
+            type: "varchar",
+          },
+          {
+            length: "15",
+            name: "location",
+            type: "varchar",
+          },
+          {
+            length: "10",
+            name: "gender",
+            type: "varchar",
+          },
+          {
+            length: "55",
+            name: "photo",
+            type: "varchar",
+          },
         ],
         name: "users",
       })
@@ -38,7 +74,6 @@ export class Users1610105419073 implements MigrationInterface {
       "users",
       new TableIndex({
         columnNames: ["username"],
-        isUnique: true,
         name: "unique_username",
       })
     );

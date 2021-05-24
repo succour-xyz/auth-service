@@ -2,6 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -13,7 +15,7 @@ export default class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column()
+  @Column({ unique: true })
   username!: string;
 
   @Column({ select: false })
@@ -21,4 +23,22 @@ export default class User {
 
   @CreateDateColumn()
   createdAt!: string;
+
+  @Column()
+  name!: string;
+
+  @Column()
+  phoneNumber!: string;
+
+  @Column()
+  email!: string;
+
+  @Column()
+  location!: string;
+
+  @Column()
+  gender!: string;
+
+  @Column()
+  photo!: string;
 }

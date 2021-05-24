@@ -121,6 +121,30 @@ const setupRoutes: (app: e.Express) => void = (app: Express) => {
     }
   });
 
+  // app.get("/profiles/:userId", async (req, res, next) => {
+  //   try {
+  //     const user = await userRepository.findOne(req.params.userId);
+  //
+  //     if (!user) return next(new Error("Invalid user ID!"));
+  //
+  //     return res.json(user);
+  //   } catch (err) {
+  //     return next(err);
+  //   }
+  // });
+
+  app.get("/profiles", async (req, res, next) => {
+    try {
+      const user = await userRepository.find();
+
+      if (!user) return next(new Error("Invalid user ID!"));
+
+      return res.json(user);
+    } catch (err) {
+      return next(err);
+    }
+  });
+
   app.get("/users/:userId", async (req, res, next) => {
     try {
       const user = await userRepository.findOne(req.params.userId);
