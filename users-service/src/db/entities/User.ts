@@ -1,7 +1,13 @@
+/*
+ * Copyright (c) 2021.  Piyush Mehta for Succour.xyz
+ */
+
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -13,7 +19,7 @@ export default class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column()
+  @Column({ unique: true })
   username!: string;
 
   @Column({ select: false })
@@ -21,4 +27,22 @@ export default class User {
 
   @CreateDateColumn()
   createdAt!: string;
+
+  @Column()
+  name!: string;
+
+  @Column()
+  phoneNumber!: string;
+
+  @Column()
+  email!: string;
+
+  @Column({ nullable: true })
+  location: string;
+
+  @Column()
+  gender!: string;
+
+  @Column({ nullable: true })
+  photo: string;
 }

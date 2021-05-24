@@ -1,10 +1,14 @@
+/*
+ * Copyright (c) 2021.  Piyush Mehta for Succour.xyz
+ */
+
 import bodyParser from "body-parser";
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 
 import accessEnv from "../helpers/accessEnv";
 
-import setupRoutes from "./routes";
+import setupRoutes from "./setupRoutes";
 
 const PORT = parseInt(accessEnv("PORT", "7101"), 10);
 
@@ -27,7 +31,7 @@ const startServer = () => {
   });
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.info(`Users service listening on ${PORT}`);
+    console.info(`🚀 Users service listening on ${PORT}`);
   });
 };
 

@@ -1,9 +1,12 @@
-import config from "../config/default";
+/*
+ * Copyright (c) 2021.  Piyush Mehta for Succour.xyz
+ */
+
 import dayjs from "dayjs";
-import { Express, Request, Response, NextFunction } from "express";
+import e, { Express, NextFunction, Request, Response } from "express";
 import omit from "lodash.omit";
 import { getConnection, getRepository } from "typeorm";
-
+import config from "../config/default";
 import User from "../db/entities/User";
 import UserSession from "../db/entities/UserSession";
 import generateUUID from "../helpers/generateUUID";
@@ -11,8 +14,11 @@ import hashPassword from "../helpers/hashPassword";
 import passwordCompareSync from "../helpers/passwordCompareSync";
 
 const USER_SESSION_EXPIRY_HOURS = config.USER_SESSION_EXPIRY_HOURS;
-
-const setupRoutes = (app: Express) => {
+/**
+ * Setups the routes
+ * @param app - The express App
+ */
+const setupRoutes: (app: e.Express) => void = (app: Express) => {
   const connection = getConnection();
   const userRepository = getRepository(User);
   const userSessionRepository = getRepository(UserSession);
@@ -102,30 +108,47 @@ const setupRoutes = (app: Express) => {
     }
   );
 
-  app.post("/users", async (req, res, next) => {
-    if (!req.body.username || !req.body.password) {
-      return next(new Error("Invalid body!"));
+  app.post(
+    "/sign-up",
+    async (req: Request, res: Response, next: NextFunction) => {
+      if (
+        !req.body.username ||
+        !req.body.password ||
+        !req.body.name ||
+        !req.body.phoneNumber ||
+        !req.body.email ||
+        !req.body.gender
+      ) {
+        return next(new Error("Invalid body!"));
+      }
+
+      try {
+        const newUser = {
+          id: generateUUID(),
+          passwordHash: hashPassword(req.body.password),
+          username: req.body.username,
+          name: req.body.name,
+          phoneNumber: req.body.phoneNumber,
+          email: req.body.email,
+          location:
+            req.body.location === undefined ? "null" : req.body.location,
+          gender: req.body.gender,
+          photo: req.body.photo === undefined ? "null" : req.body.photo,
+        };
+
+        await connection
+          .createQueryBuilder()
+          .insert()
+          .into(User)
+          .values([newUser])
+          .execute();
+
+        return res.json(omit(newUser, ["passwordHash"]));
+      } catch (err) {
+        return next(err);
+      }
     }
-
-    try {
-      const newUser = {
-        id: generateUUID(),
-        passwordHash: hashPassword(req.body.password),
-        username: req.body.username,
-      };
-
-      await connection
-        .createQueryBuilder()
-        .insert()
-        .into(User)
-        .values([newUser])
-        .execute();
-
-      return res.json(omit(newUser, ["passwordHash"]));
-    } catch (err) {
-      return next(err);
-    }
-  });
+  );
 
   app.get(
     "/users/:userId",
