@@ -1,0 +1,8 @@
+{
+  "name": "succour.xyz-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/succour-xyz/succour.xyz-server.git",
+  "author": "Piyush Mehta <me@piyushmehta.com>",
+  "license": "MIT"
+}
