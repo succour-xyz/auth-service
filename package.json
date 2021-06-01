@@ -4,5 +4,24 @@
   "main": "index.js",
   "repository": "https://github.com/succour-xyz/succour.xyz-server.git",
   "author": "Piyush Mehta <me@piyushmehta.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@piyush97/eslint-config": "^1.1.2",
+    "@piyush97/prettier-config": "^1.1.2",
+    "@piyush97/typescript-node": "^1.1.2"
+  },
+  "scripts": {
+    "watch": "ts-node-dev --respawn index.dev.ts",
+    "format": "prettier --write .",
+    "dev": "tsnd --respawn --files -r @babel/register --inspect -- src/index.ts",
+    "build": "babel ./src -d ./dist --extensions .ts --copy-files",
+    "typecheck": "tsc",
+    "start": "node dist/index.js",
+    "lint:base": "eslint --ext .js,.json,.ts",
+    "lint": "yarn lint:base src"
+  }
 }
