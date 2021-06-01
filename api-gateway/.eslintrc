@@ -1,6 +1,0 @@
-{
-  "extends": ["@piyush97/eslint-config"],
-  "rules": {
-    "@typescript-eslint/ban-ts-comment": "off"
-  }
-}
