@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
 import { User } from "../models/User";
+import { RequestBody } from "./../types/User";
+import { RequestParams } from "./../types/User/index";
 
 const router = Router();
 
@@ -10,24 +12,28 @@ router.get("/", (res: Response, req: Request) => {
 });
 
 router.post("/user", (res: Response, req: Request) => {
-  const newUser: User = { name: req.body.name, id: new Date().toISOString() };
+  const body = req.body as RequestBody;
+  const newUser: User = { name: body.name, id: new Date().toISOString() };
   users.push(newUser);
   return res.status(201).json({ message: "Added user", users, newUser });
 });
 
 router.put("/user/:userId", (res: Response, req: Request) => {
-  const uid = req.params.userId;
+  const params = req.params as RequestParams;
+  const uid = params.userId;
+  const body = req.body as RequestBody;
   const userIndex = users.findIndex((userItem) => userItem.id === uid);
   if (userIndex >= 0) {
-    users[userIndex] = { id: users[userIndex].id, name: users[userIndex].name };
+    users[userIndex] = { id: users[userIndex].id, name: body.name };
     return res.status(200).json({ message: "Updated user", users });
   }
   res.status(404).json({ message: "Could not find user" });
 });
 
 router.delete("/user/:userId", (res: Response, req: Request) => {
-  users = users.filter((userItem) => userItem.id !== req.params.userId);
+  const params = req.params as RequestParams;
+  users = users.filter((userItem) => userItem.id !== params.userId);
   res.status(200).json({ message: "Deleted User", users });
 });
 
-export default Router;
+export default router;
