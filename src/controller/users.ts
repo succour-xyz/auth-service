@@ -5,7 +5,7 @@ import { RequestBody } from "./../types/User";
 import { RequestParams } from "./../types/User/index";
 let users: User[] = [];
 
-export default class UsersRoute {
+export default class Users {
   /**
    * Returns all the users
    *
@@ -20,7 +20,7 @@ export default class UsersRoute {
     res: Response
   ) => {
     console.log("request", req.body);
-    res.status(200).json({ users });
+    res.sendStatus(200).json({ users });
   };
 
   static addUser: (
@@ -30,7 +30,7 @@ export default class UsersRoute {
     const body = req.body as RequestBody;
     const newUser: User = { name: body.name, id: uid() };
     users.push(newUser);
-    return res.status(201).json({ message: "Added user", users, newUser });
+    return res.sendStatus(201).json({ message: "Added user", users, newUser });
   };
 
   static editUser: (
@@ -43,9 +43,9 @@ export default class UsersRoute {
     const userIndex = users.findIndex((userItem) => userItem.id === uid);
     if (userIndex >= 0) {
       users[userIndex] = { id: users[userIndex].id, name: body.name };
-      return res.status(200).json({ message: "Updated user", users });
+      return res.sendStatus(200).json({ message: "Updated user", users });
     }
-    return res.status(404).json({ message: "Could not find user" });
+    return res.sendStatus(404).json({ message: "Could not find user" });
   };
 
   static deleteUser: (req: e.Request, res: e.Response) => void = (
@@ -54,6 +54,6 @@ export default class UsersRoute {
   ) => {
     const params = req.params as RequestParams;
     users = users.filter((userItem) => userItem.id !== params.userId);
-    res.status(200).json({ message: "Deleted User", users });
+    res.sendStatus(200).json({ message: "Deleted User", users });
   };
 }

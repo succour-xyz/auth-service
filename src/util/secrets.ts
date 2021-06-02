@@ -11,8 +11,9 @@ if (fs.existsSync(".env")) {
   );
   dotenv.config({ path: ".env.example" }); // you can delete this after you create your own .env file!
 }
-export const ENVIRONMENT = process.env.NODE_ENV;
-const prod = ENVIRONMENT === "production"; // Anything else is treated as 'dev'
+export const ENVIRONMENT: string = process.env.NODE_ENV || "dev";
+export const DATABASE_URL: string =
+  process.env.DATABASE_URL || "mysql://root:pass@localhost:3306";
 
 const PORT = process.env.PORT;
 
