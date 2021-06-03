@@ -59,7 +59,7 @@
     "prepare": "husky install",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }'  mocha -r ts-node/register 'test/**/*.ts' --exit",
     "coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts' --exit && codecov --token=$CODECOV_TOKEN",
-    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov"
+    "report-coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts' --exit && nyc report --reporter=text-lcov > coverage.lcov"
   },
   "lint-staged": {
     "src/**/*.{ts,js,json}": [
