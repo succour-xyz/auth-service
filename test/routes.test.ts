@@ -3,6 +3,7 @@ process.env.NODE_ENV = "test";
 import chai from "chai";
 import server from "../src/index";
 import chaiHttp from "chai-http";
+const { stub } = require("sinon");
 
 chai.use(chaiHttp);
 chai.should();
@@ -15,6 +16,40 @@ describe("Health Check Route", () => {
       .end((_err, res) => {
         res.should.have.status(200);
         res.body.should.be.a("object");
+        done();
+      });
+  });
+});
+
+describe("User Routes", () => {
+  it("It should get all the users, Currently Empty", (done) => {
+    stub()
+      .yields(null, mockUsers)
+      .chai.request(server)
+      .get("/admin/user")
+      .end((_err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.eql({});
+        done();
+      });
+  });
+});
+
+describe("Auth Routes", () => {
+  const user = {
+    name: "Piyush",
+    email: "test@case.com",
+    password: "helloo",
+    confirmPassword: "helloo",
+  };
+  it("It login if user exists", (done) => {
+    chai
+      .request(server)
+      .post("/auth/login")
+      .send(user)
+      .end((_err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.eql({});
         done();
       });
   });

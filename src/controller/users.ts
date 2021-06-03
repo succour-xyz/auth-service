@@ -16,10 +16,9 @@ export default class Users {
    * @param res - getAllUsersResponse
    */
   static getAllUsers: (req: e.Request, res: e.Response) => void = (
-    req: Request,
+    _req: Request,
     res: Response
   ) => {
-    console.log("request", req.body);
     res.sendStatus(200).json({ users });
   };
 
