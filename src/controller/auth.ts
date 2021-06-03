@@ -1,15 +1,15 @@
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
+import prisma from "../util/db";
 import { SignUpBody } from "./../types/User/index";
+import {PASSWORD_MISMATCH, EMAIL_DUPLICATE} from "../constants/message"
 
-// initializations
-const prisma = new PrismaClient();
 export default class Auth {
-  static signUp = async (req: Request, res: Response): Promise<any> => {
+  static signUp = async (req: Request, res: Response): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { name, email, password, confirmPassword } = body;
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -18,21 +18,26 @@ export default class Auth {
       const hashedPassword = await bcrypt.hash(password, 10);
       bcrypt.compare(confirmPassword, hashedPassword).then(async (same) => {
         if (same) {
-          const result = await prisma.user.create({
-            data: {
-              email,
-              password: hashedPassword,
-              name,
-            },
-          });
-          return res.sendStatus(201).json(result);
+          try {
+            const result = await prisma.user.create({
+              data: {
+                email,
+                password: hashedPassword,
+                name,
+              },
+            });
+            return res.sendStatus(201).json(result);
+          } catch (error) {
+            res.json({ message: EMAIL_DUPLICATE });
+            return res.status(409).end();
+          }
         } else {
-          return res
-            .sendStatus(406)
-            .header({ message: "Passwords Don't match" });
+          return res.sendStatus(406).json({ message: PASSWORD_MISMATCH });
         }
       });
-    } catch (error) {}
+    } catch (error) {
+      return res.sendStatus(406).json({ message: "Error" });
+    }
   };
 
   static login = async (req: Request, res: Response): Promise<unknown> => {
