@@ -57,7 +57,7 @@
     "lint:base": "eslint --ext .js,.json,.ts",
     "lint": "yarn lint:base src",
     "prepare": "husky install",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }'  mocha -r ts-node/register 'test/**/*.ts'",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }'  mocha -r ts-node/register 'test/**/*.ts' --exit",
     "coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts' && codecov",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
