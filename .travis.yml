@@ -3,8 +3,6 @@ node_js:
   - lts/*
 scripts:
   - yarn global add codecov
-  - yarn global add nyc
-  - nyc report --reporter=json > coverage/coverage.json
   - yarn coverage
 after_success:
   - codecov
