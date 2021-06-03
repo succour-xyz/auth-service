@@ -56,7 +56,7 @@
     "lint": "yarn lint:base src",
     "prepare": "husky install",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }'  mocha -r ts-node/register 'test/**/*.ts'",
-    "coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts'"
+    "coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts' && codecov"
   },
   "lint-staged": {
     "src/**/*.{ts,js,json}": [
