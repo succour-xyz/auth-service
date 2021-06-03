@@ -5,4 +5,4 @@ scripts:
   - yarn global add codecov
   - yarn coverage
 after_success:
-  - codecov
+  - codecov --token=$CODECOV_TOKEN
