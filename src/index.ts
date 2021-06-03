@@ -1,12 +1,18 @@
 import bodyParser from "body-parser";
 import express from "express";
+import passport from "passport";
 import AuthRoutes from "./routes/auth";
 import AdminRoutes from "./routes/user";
 import PORT from "./util/secrets";
+
 const app = express();
 
 app.use(bodyParser.json());
-
+app.use(express.json());
+app.use(passport.initialize());
+/**
+ * - Public and protected routes
+ */
 app.use("/admin", AdminRoutes);
 app.use("/auth", AuthRoutes);
 
