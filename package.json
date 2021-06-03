@@ -1,5 +1,71 @@
 {
+  "name": "succour.xyz-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/succour-xyz/succour.xyz-server.git",
+  "author": "Piyush Mehta <me@piyushmehta.com>",
+  "license": "MIT",
   "dependencies": {
-    "class-validator": "^0.13.1"
+    "@prisma/client": "^2.24.0",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.2",
+    "express-validator": "^6.11.1",
+    "mysql2": "^2.2.5",
+    "passport": "^0.4.1",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "uid": "^2.0.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@piyush97/eslint-config": "^1.1.2",
+    "@piyush97/prettier-config": "^1.1.2",
+    "@piyush97/typescript-node": "^1.1.2",
+    "@types/bcrypt": "^5.0.0",
+    "@types/chai": "^4.2.18",
+    "@types/express-flash": "^0.0.2",
+    "@types/express-session": "^1.17.3",
+    "@types/express-validator": "^3.0.0",
+    "@types/mocha": "^8.2.2",
+    "@types/passport": "^1.0.6",
+    "@types/passport-local": "^1.0.33",
+    "chai": "^4.3.4",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "mocha": "^8.4.0",
+    "nyc": "^15.1.0",
+    "prettier-plugin-prisma": "^0.11.0",
+    "prisma": "^2.24.0",
+    "ts-node": "^10.0.0"
+  },
+  "scripts": {
+    "watch": "ts-node-dev --respawn index.dev.ts",
+    "format": "prettier --write .",
+    "dev": "tsnd --respawn --files -r @babel/register --inspect -- src/index.ts",
+    "build": "babel ./src -d ./dist --extensions .ts --copy-files",
+    "typecheck": "tsc",
+    "devStart": "nodemon dist/index.js",
+    "start": "node dist/index.js",
+    "lint:base": "eslint --ext .js,.json,.ts",
+    "lint": "yarn lint:base src",
+    "prepare": "husky install",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }'  mocha -r ts-node/register 'test/**/*.ts'",
+    "coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts'"
+
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js,json}": [
+      "yarn lint:base --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn typecheck && lint-staged"
+    }
   }
 }
