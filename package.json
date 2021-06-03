@@ -27,15 +27,20 @@
     "@piyush97/prettier-config": "^1.1.2",
     "@piyush97/typescript-node": "^1.1.2",
     "@types/bcrypt": "^5.0.0",
+    "@types/chai": "^4.2.18",
     "@types/express-flash": "^0.0.2",
     "@types/express-session": "^1.17.3",
     "@types/express-validator": "^3.0.0",
+    "@types/mocha": "^8.2.2",
     "@types/passport": "^1.0.6",
     "@types/passport-local": "^1.0.33",
+    "chai": "^4.3.4",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
+    "mocha": "^8.4.0",
     "prettier-plugin-prisma": "^0.11.0",
-    "prisma": "^2.24.0"
+    "prisma": "^2.24.0",
+    "ts-node": "^10.0.0"
   },
   "scripts": {
     "watch": "ts-node-dev --respawn index.dev.ts",
@@ -48,7 +53,7 @@
     "lint:base": "eslint --ext .js,.json,.ts",
     "lint": "yarn lint:base src",
     "prepare": "husky install",
-    "test": "echo todo"
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'"
   },
   "lint-staged": {
     "src/**/*.{ts,js,json}": [

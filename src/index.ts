@@ -8,7 +8,6 @@ import PORT from "./util/secrets";
 
 const app = express();
 passportConfig(passport);
-app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(bodyParser.json());
