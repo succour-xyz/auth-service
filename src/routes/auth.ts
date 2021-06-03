@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import passport from "passport";
 import AuthRouter from "../controller/auth";
 const router = Router();
 
@@ -26,8 +25,6 @@ router.post(
   AuthRouter.signUp
 );
 
-router.post("/login", passport.authenticate("local"), (req, res) =>
-  res.sendStatus(200).json({ req, res })
-);
+router.post("/login", AuthRouter.login);
 
 export default router;

@@ -1,7 +1,11 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { EMAIL_DUPLICATE, PASSWORD_MISMATCH } from "../constants/messages";
+import {
+  EMAIL_DUPLICATE,
+  EMAIL_NOT_FOUND,
+  PASSWORD_MISMATCH,
+} from "../constants/messages";
 import prisma from "../util/db";
 import { SignUpBody } from "./../types/User/index";
 
@@ -43,17 +47,24 @@ export default class Auth {
   static login = async (req: Request, res: Response): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const email = body.email;
-
-    const result = await prisma.user
-      .findUnique({ where: { email } })
-      .then((result) => {
-        if (result?.password === body.password)
-          return res.sendStatus(200).json(result);
-      })
-      .catch((err) => {
-        if (err) return res.sendStatus(404).json(err);
-      });
-
-    return result;
+    try {
+      await prisma.user
+        .findUnique({ where: { email } })
+        .then((result) => {
+          if (result) {
+            res.sendStatus(200).json(result);
+          } else {
+            return res.status(404).json({ message: EMAIL_NOT_FOUND }).end();
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            console.error(error);
+          }
+        });
+    } catch (error) {
+      res.json({ message: EMAIL_NOT_FOUND });
+      return res.status(404).end();
+    }
   };
 }

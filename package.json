@@ -32,6 +32,8 @@
     "@types/express-validator": "^3.0.0",
     "@types/passport": "^1.0.6",
     "@types/passport-local": "^1.0.33",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
     "prettier-plugin-prisma": "^0.11.0",
     "prisma": "^2.24.0"
   },
@@ -44,6 +46,18 @@
     "devStart": "nodemon dist/index.js",
     "start": "node dist/index.js",
     "lint:base": "eslint --ext .js,.json,.ts",
-    "lint": "yarn lint:base src"
+    "lint": "yarn lint:base src",
+    "prepare": "husky install",
+    "test": "echo todo"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js,json}": [
+      "yarn lint:base --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn typecheck && lint-staged"
+    }
   }
 }
