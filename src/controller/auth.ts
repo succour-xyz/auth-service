@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
+import { EMAIL_DUPLICATE, PASSWORD_MISMATCH } from "../constants/messages";
 import prisma from "../util/db";
 import { SignUpBody } from "./../types/User/index";
-import {PASSWORD_MISMATCH, EMAIL_DUPLICATE} from "../constants/message"
 
 export default class Auth {
   static signUp = async (req: Request, res: Response): Promise<unknown> => {
