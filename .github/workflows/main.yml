@@ -26,8 +26,6 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Codecov
-      # You may pin to the exact commit or the version.
-      # uses: codecov/codecov-action@a1ed4b322b4b38cb846afb5a0ebfa17086917d27
         uses: codecov/codecov-action@v1.5.0
         with:
           # Repository upload token - get it from codecov.io. Required only for private repositories
