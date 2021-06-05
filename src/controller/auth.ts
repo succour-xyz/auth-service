@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { error } from "winston";
 import {
@@ -24,14 +24,15 @@ declare module "express-session" {
 
 export default class Auth {
   /**
-   *
-   *
+   * Signup
    * @static
-   * @param {Request} req
-   * @param {Response} res
-   * @memberof Auth
+   * @param req
+   * @param res
    */
-  static signUp = async (req: Request, res: Response): Promise<unknown> => {
+  static signUp: (req: e.Request, res: e.Response) => Promise<unknown> = async (
+    req: Request,
+    res: Response
+  ): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { name, email, password, confirmPassword } = body;
 
@@ -78,7 +79,10 @@ export default class Auth {
    * @param {Response} res
    * @memberof Auth
    */
-  static login = async (req: Request, res: Response): Promise<unknown> => {
+  static login: (req: e.Request, res: e.Response) => Promise<unknown> = async (
+    req: Request,
+    res: Response
+  ): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { email, password } = body;
     try {
@@ -115,9 +119,19 @@ export default class Auth {
       return res.status(404).end();
     }
   };
-  static logout = (req: Request, res: Response) => {
-    req.session.destroy((error) => {
-      return error ? console.error(error) : res.sendStatus(204);
+
+  /**
+   * Logout
+   * @static
+   * @param req
+   * @param res
+   */
+  static logout: (req: e.Request, res: e.Response) => void = (
+    req: Request,
+    res: Response
+  ) => {
+    req.session.destroy(() => {
+      return res.sendStatus(204);
     });
   };
 }
