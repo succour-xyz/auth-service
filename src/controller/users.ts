@@ -25,7 +25,7 @@ export default class Users {
   static addUser: (
     req: e.Request,
     res: e.Response
-  ) => e.Response<never, Record<string, any>> = (
+  ) => e.Response<never, Record<string, unknown>> = (
     req: Request,
     res: Response
   ) => {
@@ -38,9 +38,9 @@ export default class Users {
   static editUser: (
     req: e.Request,
     res: e.Response
-  ) => e.Response<never, Record<string, any>> = (
-    req: Request,
-    res: Response
+  ) => e.Response<never, Record<string, unknown>> = (
+    req: e.Request,
+    res: e.Response
   ) => {
     const params = req.params as RequestParams;
     const uid = params.userId;
