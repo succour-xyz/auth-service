@@ -1,9 +1,11 @@
+import Users from "../src/controller/users";
+
 process.env.NODE_ENV = "test";
 
 import chai from "chai";
 import server from "../src/index";
 import chaiHttp from "chai-http";
-const { stub } = require("sinon");
+import sinon from "sinon";
 
 chai.use(chaiHttp);
 chai.should();
@@ -23,15 +25,18 @@ describe("Health Check Route", () => {
 
 describe("User Routes", () => {
   it("It should get all the users, Currently Empty", (done) => {
-    stub()
-      .yields(null, mockUsers)
-      .chai.request(server)
-      .get("/admin/user")
-      .end((_err, res) => {
-        res.should.have.status(404);
-        res.body.should.be.eql({});
-        done();
-      });
+    before(() => {
+      sinon.stub(Users, "getAllUsers").yields(JSON.stringify([]));
+    });
+    // const spy = sinon.spy(Users, "getAllUsers");
+    // stub()
+    //   .yields(null, mockUsers)
+    //   .chai.request(server)
+    //   .get("/admin/user")
+    //   .end((_err, res) => {
+    //     res.should.have.status(404);
+    //     res.body.should.be.eql({});
+    done();
   });
 });
 

@@ -51,10 +51,10 @@
   "scripts": {
     "watch": "ts-node-dev --respawn index.dev.ts",
     "format": "prettier --write .",
-    "dev": "tsnd --respawn --files -r @babel/register --inspect -- src/index.ts",
+    "dev": " tsnd --respawn --debug index.dev.ts ",
     "build": "babel ./src -d ./dist --extensions .ts --copy-files",
     "typecheck": "tsc",
-    "devStart": "nodemon dist/index.js",
+    "devStart": " nodemon --watch \"index.dev.ts\" --ext \"ts,json\"  --exec \"ts-node src/index.ts\"\n",
     "start": "node dist/index.js",
     "lint:base": "eslint --ext .js,.json,.ts",
     "lint": "yarn lint:base src",

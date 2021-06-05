@@ -16,6 +16,14 @@ import { ENTER_CORRECT_PASSWORD } from "./../constants/messages";
 import { SignUpBody } from "./../types/User/index";
 
 export default class Auth {
+  /**
+   *
+   *
+   * @static
+   * @param {Request} req
+   * @param {Response} res
+   * @memberof Auth
+   */
   static signUp = async (req: Request, res: Response): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { name, email, password, confirmPassword } = body;
@@ -55,6 +63,14 @@ export default class Auth {
     }
   };
 
+  /**
+   *  Logins a User
+   *
+   * @static
+   * @param {Request} req
+   * @param {Response} res
+   * @memberof Auth
+   */
   static login = async (req: Request, res: Response): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { email, password } = body;
@@ -67,6 +83,8 @@ export default class Auth {
               .compare(password, result.password)
               .then((doMatch) => {
                 if (doMatch) {
+                  // @ts-ignore
+                  req.session.isLoggedIn = true;
                   res.sendStatus(200);
                 } else {
                   res.statusCode = 406;

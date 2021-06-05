@@ -14,6 +14,7 @@ if (fs.existsSync(".env")) {
 export const ENVIRONMENT: string = process.env.NODE_ENV || "dev";
 export const DATABASE_URL: string =
   process.env.DATABASE_URL || "mysql://root:pass@localhost:3306";
+export const SECRET: string = process.env.SECRET || "secret";
 
 const PORT = process.env.PORT;
 
