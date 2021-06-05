@@ -19,7 +19,7 @@ export default class Users {
     _req: Request,
     res: Response
   ) => {
-    res.sendStatus(200).json({ users });
+    return res.sendStatus(200).json({ users });
   };
 
   static addUser: (

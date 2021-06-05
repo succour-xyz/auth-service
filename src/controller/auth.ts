@@ -112,7 +112,7 @@ export default class Auth {
   };
   static logout = (req: Request, res: Response) => {
     req.session.destroy((error) => {
-      error ? console.error(error) : res.sendStatus(204);
+      return error ? console.error(error) : res.sendStatus(204);
     });
   };
 }
