@@ -77,14 +77,16 @@ export default class Auth {
     try {
       await prisma.user
         .findUnique({ where: { email } })
-        .then((result) => {
-          if (result) {
+        .then((user) => {
+          if (user) {
             bcrypt
-              .compare(password, result.password)
+              .compare(password, user.password)
               .then((doMatch) => {
                 if (doMatch) {
                   // @ts-ignore
                   req.session.isLoggedIn = true;
+                  // @ts-ignore
+                  req.session.user = user;
                   res.sendStatus(200);
                 } else {
                   res.statusCode = 406;
@@ -107,5 +109,10 @@ export default class Auth {
       res.json({ message: EMAIL_NOT_FOUND });
       return res.status(404).end();
     }
+  };
+  static logout = (req: Request, res: Response) => {
+    req.session.destroy((error) => {
+      error ? console.error(error) : res.sendStatus(204);
+    });
   };
 }
