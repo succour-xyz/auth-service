@@ -3,6 +3,7 @@ import express from "express";
 import AuthRoutes from "./routes/auth";
 import AdminRoutes from "./routes/user";
 import PORT from "./util/secrets";
+import { SECRET } from "./util/secrets";
 import HealthCheck from "./controller/health";
 import errorRoute from "./routes/error";
 import session from "express-session";
@@ -10,7 +11,7 @@ import session from "express-session";
 const app = express();
 
 app.use(bodyParser.json());
-app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
+app.use(session({ secret: SECRET, resave: false, saveUninitialized: false }));
 app.use(express.json());
 /**
  * - Public and protected routes
