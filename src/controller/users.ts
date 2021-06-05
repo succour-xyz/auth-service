@@ -25,7 +25,10 @@ export default class Users {
   static addUser: (
     req: e.Request,
     res: e.Response
-  ) => e.Response<any, Record<string, any>> = (req: Request, res: Response) => {
+  ) => e.Response<never, Record<string, any>> = (
+    req: Request,
+    res: Response
+  ) => {
     const body = req.body as RequestBody;
     const newUser: User = { name: body.name, id: uid() };
     users.push(newUser);
@@ -35,7 +38,10 @@ export default class Users {
   static editUser: (
     req: e.Request,
     res: e.Response
-  ) => e.Response<any, Record<string, any>> = (req: Request, res: Response) => {
+  ) => e.Response<never, Record<string, any>> = (
+    req: Request,
+    res: Response
+  ) => {
     const params = req.params as RequestParams;
     const uid = params.userId;
     const body = req.body as RequestBody;
