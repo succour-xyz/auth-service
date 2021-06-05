@@ -13,7 +13,14 @@ import {
   ENCRYPTION_FAIL,
 } from "./../constants/errors";
 import { ENTER_CORRECT_PASSWORD } from "./../constants/messages";
-import { SignUpBody } from "./../types/User/index";
+import { LoginType, SignUpBody } from "./../types/User/index";
+
+declare module "express-session" {
+  interface Session {
+    isLoggedIn: boolean;
+    user: LoginType;
+  }
+}
 
 export default class Auth {
   /**
@@ -83,9 +90,7 @@ export default class Auth {
               .compare(password, user.password)
               .then((doMatch) => {
                 if (doMatch) {
-                  // @ts-ignore
                   req.session.isLoggedIn = true;
-                  // @ts-ignore
                   req.session.user = user;
                   res.sendStatus(200);
                 } else {

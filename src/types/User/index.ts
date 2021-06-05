@@ -6,3 +6,9 @@ export type SignUpBody = {
   confirmPassword: string;
   name: string;
 };
+export interface LoginType {
+  id: number;
+  email: string;
+  password: string;
+  name: string | null;
+}
