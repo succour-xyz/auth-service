@@ -16,6 +16,14 @@ import { ENTER_CORRECT_PASSWORD } from "./../constants/messages";
 import { SignUpBody } from "./../types/User/index";
 
 export default class Auth {
+  /**
+   *
+   *
+   * @static
+   * @param {Request} req
+   * @param {Response} res
+   * @memberof Auth
+   */
   static signUp = async (req: Request, res: Response): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { name, email, password, confirmPassword } = body;
@@ -55,18 +63,30 @@ export default class Auth {
     }
   };
 
+  /**
+   *  Logins a User
+   *
+   * @static
+   * @param {Request} req
+   * @param {Response} res
+   * @memberof Auth
+   */
   static login = async (req: Request, res: Response): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { email, password } = body;
     try {
       await prisma.user
         .findUnique({ where: { email } })
-        .then((result) => {
-          if (result) {
+        .then((user) => {
+          if (user) {
             bcrypt
-              .compare(password, result.password)
+              .compare(password, user.password)
               .then((doMatch) => {
                 if (doMatch) {
+                  // @ts-ignore
+                  req.session.isLoggedIn = true;
+                  // @ts-ignore
+                  req.session.user = user;
                   res.sendStatus(200);
                 } else {
                   res.statusCode = 406;
@@ -89,5 +109,10 @@ export default class Auth {
       res.json({ message: EMAIL_NOT_FOUND });
       return res.status(404).end();
     }
+  };
+  static logout = (req: Request, res: Response) => {
+    req.session.destroy((error) => {
+      error ? console.error(error) : res.sendStatus(204);
+    });
   };
 }
