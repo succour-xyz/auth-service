@@ -1,8 +1,10 @@
 import { Router } from "express";
 import Users from "../controller/users";
+import isAuth from "../middleware/isAuth";
+
 const router = Router();
 
-router.get("/", Users.getAllUsers);
+router.get("/", isAuth, Users.getAllUsers);
 
 router.post("/user", Users.addUser);
 
