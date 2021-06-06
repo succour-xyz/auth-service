@@ -4,7 +4,7 @@ const isAuth: (
   req: Request,
   res: Response,
   next: NextFunction
-) => Response<any, Record<string, any>> | void = (
+) => Response<unknown, Record<string, unknown>> | void = (
   req: Request,
   res: Response,
   next: NextFunction
