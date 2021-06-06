@@ -1,12 +1,27 @@
 import { Router } from "express";
 import AuthImpl from "../controller/implmentations/authImpl";
 import { LOGIN, LOGOUT, SIGN_UP } from "../constants/routes";
-import Validation from "../util/validations";
+import { body } from "express-validator";
 const router = Router();
 
 const auth = new AuthImpl();
 
-router.post(SIGN_UP, Validation.signUpValidations, auth.signUp);
+router.post(
+  SIGN_UP,
+  body("email").isEmail().withMessage("Must be a valid Email Id"),
+  body("password")
+    .isLength({ min: 6, max: 30 })
+    .withMessage(
+      "password must be at least 6 chars long and 30 characters max"
+    ),
+  body("confirmPassword").custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error("Password confirmation does not match password");
+    }
+    return true;
+  }),
+  auth.signUp
+);
 
 router.post(LOGIN, auth.login);
 
