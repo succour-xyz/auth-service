@@ -1,19 +1,22 @@
 import bcrypt from "bcrypt";
-import e, { Request, Response } from "express";
+import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { error } from "winston";
+import IAuth from "../IAuth";
+// import crypto from "crypto";
 import {
   EMAIL_DUPLICATE,
   EMAIL_NOT_FOUND,
+  INVALID_EMAIL_OR_PASSWORD,
   PASSWORD_MISMATCH,
-} from "../constants/messages";
-import prisma from "../util/db";
+} from "../../constants/messages";
+import prisma from "../../util/db";
 import {
   ENCRYPTION_COMPARE_FAIL,
   ENCRYPTION_FAIL,
-} from "./../constants/errors";
-import { ENTER_CORRECT_PASSWORD } from "./../constants/messages";
-import { LoginType, SignUpBody } from "./../types/User/index";
+} from "../../constants/errors";
+import { LoginType, SignUpBody } from "../../types/User";
+import { Service } from "typedi";
 
 declare module "express-session" {
   interface Session {
@@ -22,14 +25,15 @@ declare module "express-session" {
   }
 }
 
-export default class Auth {
+@Service()
+export default class AuthImpl implements IAuth {
   /**
    * Signup
    * @static
    * @param req
    * @param res
    */
-  static signUp: (req: e.Request, res: e.Response) => Promise<unknown> = async (
+  signUp: (req: Request, res: Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
@@ -77,9 +81,9 @@ export default class Auth {
    * @static
    * @param {Request} req
    * @param {Response} res
-   * @memberof Auth
+   * @memberof AuthImpl
    */
-  static login: (req: e.Request, res: e.Response) => Promise<unknown> = async (
+  login: (req: Request, res: Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
@@ -96,10 +100,14 @@ export default class Auth {
                 if (doMatch) {
                   req.session.isLoggedIn = true;
                   req.session.user = user;
+                  //Not required right now
+                  // console.log(req.csrfToken());
+                  // req.csrfToken();
+                  // res.cookie("XSRF-TOKEN", req.csrfToken());
                   res.sendStatus(200);
                 } else {
                   res.statusCode = 406;
-                  res.json({ message: ENTER_CORRECT_PASSWORD, error }).end();
+                  res.json({ message: INVALID_EMAIL_OR_PASSWORD, error }).end();
                 }
               })
               .catch((error) => {
@@ -126,7 +134,7 @@ export default class Auth {
    * @param req
    * @param res
    */
-  static logout: (req: e.Request, res: e.Response) => void = (
+  logout: (req: Request, res: Response) => void = (
     req: Request,
     res: Response
   ) => {
@@ -134,4 +142,19 @@ export default class Auth {
       return res.sendStatus(204);
     });
   };
+
+  // reset: (
+  //   req: Request,
+  //   res: Response
+  // ) => {
+  //   //     console.log("check")
+  //   //         crypto.randomBytes(32,(err,buffer)=>{
+  //   //         if(err){
+  //   //         console.error(error)
+  //   //         return res.sendStatus(500)
+  //   //       }
+  //   //       const token = buffer.toString('hex')
+  //   //     })
+  //   // return "hello";
+  // };
 }

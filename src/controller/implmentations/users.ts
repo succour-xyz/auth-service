@@ -1,10 +1,12 @@
 import e, { Request, Response } from "express";
 import { uid } from "uid/secure";
-import { User } from "../models/User";
-import { RequestBody } from "./../types/User";
-import { RequestParams } from "./../types/User/index";
+import { User } from "../../models/User";
+import { RequestBody } from "../../types/User";
+import { RequestParams } from "../../types/User";
+import { Service } from "typedi";
 let users: User[] = [];
 
+@Service()
 export default class Users {
   /**
    * Returns all the users

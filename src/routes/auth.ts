@@ -1,15 +1,13 @@
 import { Router } from "express";
+import AuthImpl from "../controller/implmentations/authImpl";
+import { LOGIN, LOGOUT, SIGN_UP } from "../constants/routes";
 import { body } from "express-validator";
-import AuthRouter from "../controller/auth";
 const router = Router();
 
-/**
- * @param signup - signup route
- * @param validations - Email must be a valid Email Id
- * @param validations - Password must be at least 6 chars long and 30 characters max
- */
+const auth = new AuthImpl();
+
 router.post(
-  "/signup",
+  SIGN_UP,
   body("email").isEmail().withMessage("Must be a valid Email Id"),
   body("password")
     .isLength({ min: 6, max: 30 })
@@ -22,11 +20,13 @@ router.post(
     }
     return true;
   }),
-  AuthRouter.signUp
+  auth.signUp
 );
 
-router.post("/login", AuthRouter.login);
+router.post(LOGIN, auth.login);
 
-router.post("/logout", AuthRouter.logout);
+router.post(LOGOUT, auth.logout);
+
+// router.post(RESET_PASSWORD, auth.reset);
 
 export default router;

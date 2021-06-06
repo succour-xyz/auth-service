@@ -1,4 +1,4 @@
-import Users from "../src/controller/users";
+import Users from "../src/controller/implmentations/users";
 
 process.env.NODE_ENV = "test";
 
@@ -40,7 +40,7 @@ describe("User Routes", () => {
   });
 });
 
-describe("Auth Routes", () => {
+describe("AuthImpl Routes", () => {
   const user = {
     name: "Piyush",
     email: "test@case.com",
