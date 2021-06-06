@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { error } from "winston";
 import IAuth from "../IAuth";
-// import crypto from "crypto";
 import {
   EMAIL_DUPLICATE,
   EMAIL_NOT_FOUND,
@@ -60,18 +59,24 @@ export default class AuthImpl implements IAuth {
               });
               return res.sendStatus(201).json(result);
             } catch (error) {
+              const err = new Error(EMAIL_DUPLICATE);
               res.json({ message: EMAIL_DUPLICATE });
-              return res.status(409).end();
+              res.status(409).end();
+              throw err;
             }
           } else {
-            return res.sendStatus(406).json({ message: PASSWORD_MISMATCH });
+            const err = new Error(PASSWORD_MISMATCH);
+            res.sendStatus(406).json({ message: PASSWORD_MISMATCH });
+            throw err;
           }
         })
         .catch((error) => {
-          return console.error(ENCRYPTION_FAIL, error);
+          const err = new Error(ENCRYPTION_FAIL);
+          console.error(ENCRYPTION_FAIL, error);
+          throw err;
         });
     } catch (error) {
-      return res.sendStatus(406).json({ message: "Error" });
+      return res.json({ message: error }).sendStatus(406);
     }
   };
 
@@ -86,7 +91,7 @@ export default class AuthImpl implements IAuth {
   login: (req: Request, res: Response) => Promise<unknown> = async (
     req: Request,
     res: Response
-  ): Promise<unknown> => {
+  ): Promise<void> => {
     const body = req.body as SignUpBody;
     const { email, password } = body;
     try {
@@ -100,21 +105,23 @@ export default class AuthImpl implements IAuth {
                 if (doMatch) {
                   req.session.isLoggedIn = true;
                   req.session.user = user;
-                  //Not required right now
-                  // console.log(req.csrfToken());
-                  // req.csrfToken();
-                  // res.cookie("XSRF-TOKEN", req.csrfToken());
                   res.sendStatus(200);
                 } else {
+                  const err = new Error(INVALID_EMAIL_OR_PASSWORD);
                   res.statusCode = 406;
                   res.json({ message: INVALID_EMAIL_OR_PASSWORD, error }).end();
+                  throw err;
                 }
               })
               .catch((error) => {
-                return console.error(ENCRYPTION_COMPARE_FAIL, error);
+                const err = new Error(ENCRYPTION_COMPARE_FAIL);
+                console.error(ENCRYPTION_COMPARE_FAIL, error);
+                throw err;
               });
           } else {
-            return res.status(404).json({ message: EMAIL_NOT_FOUND }).end();
+            const err = new Error(EMAIL_NOT_FOUND);
+            res.json({ message: EMAIL_NOT_FOUND }).sendStatus(404).end();
+            throw err;
           }
         })
         .catch((error) => {
@@ -123,8 +130,10 @@ export default class AuthImpl implements IAuth {
           }
         });
     } catch (error) {
+      const err = new Error(EMAIL_NOT_FOUND);
       res.json({ message: EMAIL_NOT_FOUND });
-      return res.status(404).end();
+      res.status(404).end();
+      throw err;
     }
   };
 
@@ -142,19 +151,4 @@ export default class AuthImpl implements IAuth {
       return res.sendStatus(204);
     });
   };
-
-  // reset: (
-  //   req: Request,
-  //   res: Response
-  // ) => {
-  //   //     console.log("check")
-  //   //         crypto.randomBytes(32,(err,buffer)=>{
-  //   //         if(err){
-  //   //         console.error(error)
-  //   //         return res.sendStatus(500)
-  //   //       }
-  //   //       const token = buffer.toString('hex')
-  //   //     })
-  //   // return "hello";
-  // };
 }
