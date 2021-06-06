@@ -14,3 +14,7 @@ export const EMAIL_NOT_FOUND = "Email Not Registered, Please Sign Up";
  * Constant Enter correct Password
  */
 export const ENTER_CORRECT_PASSWORD = "Please enter correct password";
+/**
+ * Constant Invalid Email or Password
+ */
+export const INVALID_EMAIL_OR_PASSWORD = "Invalid Email or Password";

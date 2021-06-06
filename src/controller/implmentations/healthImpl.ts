@@ -1,7 +1,9 @@
-import e, { Request, Response } from "express";
+import { Request, Response } from "express";
+import { Service } from "typedi";
 
+@Service()
 export default class HealthCheck {
-  static healthCheck: (_req: e.Request, res: e.Response) => void = (
+  static healthCheck: (_req: Request, res: Response) => void = (
     _req: Request,
     res: Response
   ) => {

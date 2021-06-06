@@ -2,7 +2,8 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { error } from "winston";
-import crypto from "crypto";
+import IAuth from "../IAuth";
+// import crypto from "crypto";
 import {
   EMAIL_DUPLICATE,
   EMAIL_NOT_FOUND,
@@ -15,6 +16,7 @@ import {
   ENCRYPTION_FAIL,
 } from "../../constants/errors";
 import { LoginType, SignUpBody } from "../../types/User";
+import { Service } from "typedi";
 
 declare module "express-session" {
   interface Session {
@@ -23,14 +25,15 @@ declare module "express-session" {
   }
 }
 
-export default class Auth {
+@Service()
+export default class AuthImpl implements IAuth {
   /**
    * Signup
    * @static
    * @param req
    * @param res
    */
-  static signUp: (req: Request, res: Response) => Promise<unknown> = async (
+  signUp: (req: Request, res: Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
@@ -78,9 +81,9 @@ export default class Auth {
    * @static
    * @param {Request} req
    * @param {Response} res
-   * @memberof Auth
+   * @memberof AuthImpl
    */
-  static login: (req: Request, res: Response) => Promise<unknown> = async (
+  login: (req: Request, res: Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
@@ -131,7 +134,7 @@ export default class Auth {
    * @param req
    * @param res
    */
-  static logout: (req: Request, res: Response) => void = (
+  logout: (req: Request, res: Response) => void = (
     req: Request,
     res: Response
   ) => {
@@ -140,18 +143,18 @@ export default class Auth {
     });
   };
 
-  static reset: (
-    req: Request,
-    res: Response
-  ) => {
-    //     console.log("check")
-    //     crypto.randomBytes(32,(err,buffer)=>{
-    //     if(err){
-    //     console.error(error)
-    //     return res.sendStatus(500)
-    //   }
-    //   const token = buffer.toString('hex')
-    // })
-    //
-  };
+  // reset: (
+  //   req: Request,
+  //   res: Response
+  // ) => {
+  //   //     console.log("check")
+  //   //         crypto.randomBytes(32,(err,buffer)=>{
+  //   //         if(err){
+  //   //         console.error(error)
+  //   //         return res.sendStatus(500)
+  //   //       }
+  //   //       const token = buffer.toString('hex')
+  //   //     })
+  //   // return "hello";
+  // };
 }

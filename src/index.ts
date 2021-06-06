@@ -1,20 +1,26 @@
-import bodyParser from "body-parser";
+import flash from "connect-flash";
+import connect_redis from "connect-redis";
 import express from "express";
-import AuthRoutes from "./routes/auth";
-import AdminRoutes from "./routes/user";
-import { PORT, SECRET, REDIS_PORT, REDIS_HOST } from "./util/secrets";
-import HealthCheck from "./controller/health";
-import errorRoute from "./routes/error";
 import session from "express-session";
 import redis from "redis";
-import connect_redis from "connect-redis";
+import HealthCheck from "./controller/implmentations/healthImpl";
+import AuthRoutes from "./routes/auth";
+import errorRoute from "./routes/error";
+import AdminRoutes from "./routes/user";
+import { PORT, REDIS_HOST, REDIS_PORT, SECRET } from "./util/secrets";
+import { ADMIN, AUTH, HEALTHCHECK } from "./constants/routes";
 
 const RedisStore = connect_redis(session);
 const redisClient = redis.createClient({ port: REDIS_PORT, host: REDIS_HOST });
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(
   session({
     store: new RedisStore({ client: redisClient }),
@@ -23,16 +29,18 @@ app.use(
     resave: false,
   })
 );
+app.use(flash());
 app.use(express.json());
+
 /**
  * - Public and protected routes
  */
-app.use("/admin", AdminRoutes);
-app.use("/auth", AuthRoutes);
+app.use(ADMIN, AdminRoutes);
+app.use(AUTH, AuthRoutes);
 /**
  * HealthCheck
  */
-app.get("/healthCheck", HealthCheck.healthCheck);
+app.get(HEALTHCHECK, HealthCheck.healthCheck);
 /**
  * Error Route
  */
