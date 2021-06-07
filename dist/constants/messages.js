@@ -1,13 +1,9 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true,
+  value: true
 });
-exports.ENTER_CORRECT_PASSWORD =
-  exports.EMAIL_NOT_FOUND =
-  exports.PASSWORD_MISMATCH =
-  exports.EMAIL_DUPLICATE =
-    void 0;
+exports.INVALID_EMAIL_OR_PASSWORD = exports.ENTER_CORRECT_PASSWORD = exports.EMAIL_NOT_FOUND = exports.PASSWORD_MISMATCH = exports.EMAIL_DUPLICATE = void 0;
 
 /**
  * Constant Duplicate Message
@@ -31,4 +27,10 @@ var EMAIL_NOT_FOUND = "Email Not Registered, Please Sign Up";
 
 exports.EMAIL_NOT_FOUND = EMAIL_NOT_FOUND;
 var ENTER_CORRECT_PASSWORD = "Please enter correct password";
+/**
+ * Constant Invalid Email or Password
+ */
+
 exports.ENTER_CORRECT_PASSWORD = ENTER_CORRECT_PASSWORD;
+var INVALID_EMAIL_OR_PASSWORD = "Invalid Email or Password";
+exports.INVALID_EMAIL_OR_PASSWORD = INVALID_EMAIL_OR_PASSWORD;

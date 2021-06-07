@@ -1,7 +1,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true,
+  value: true
 });
 exports.ENCRYPTION_FAIL = exports.ENCRYPTION_COMPARE_FAIL = void 0;
 

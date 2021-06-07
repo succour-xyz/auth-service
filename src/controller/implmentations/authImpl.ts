@@ -1,22 +1,22 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
+import { Service } from "typedi";
+import { getRepository } from "typeorm";
 import { error } from "winston";
-import IAuth from "../IAuth";
+import {
+  ENCRYPTION_COMPARE_FAIL,
+  ENCRYPTION_FAIL,
+} from "../../constants/errors";
 import {
   EMAIL_DUPLICATE,
   EMAIL_NOT_FOUND,
   INVALID_EMAIL_OR_PASSWORD,
   PASSWORD_MISMATCH,
 } from "../../constants/messages";
-import prisma from "../../util/db";
-import {
-  ENCRYPTION_COMPARE_FAIL,
-  ENCRYPTION_FAIL,
-} from "../../constants/errors";
 import { LoginType, SignUpBody } from "../../types/User";
-import { Service } from "typedi";
-
+import IAuth from "../IAuth";
+import { User } from "./../../entity/User";
 declare module "express-session" {
   interface Session {
     isLoggedIn: boolean;
@@ -26,6 +26,7 @@ declare module "express-session" {
 
 @Service()
 export default class AuthImpl implements IAuth {
+  private userRepository = getRepository(User);
   /**
    * Signup
    * @static
@@ -50,14 +51,9 @@ export default class AuthImpl implements IAuth {
         .then(async (same) => {
           if (same) {
             try {
-              const result = await prisma.user.create({
-                data: {
-                  email,
-                  password: hashedPassword,
-                  name,
-                },
-              });
-              return res.sendStatus(201).json(result);
+              this.userRepository
+                .save(body)
+                .then((result) => res.json(result).sendStatus(201));
             } catch (error) {
               const err = new Error(EMAIL_DUPLICATE);
               res.json({ message: EMAIL_DUPLICATE });
@@ -95,8 +91,8 @@ export default class AuthImpl implements IAuth {
     const body = req.body as SignUpBody;
     const { email, password } = body;
     try {
-      await prisma.user
-        .findUnique({ where: { email } })
+      await this.userRepository
+        .findOne(email)
         .then((user: any) => {
           if (user) {
             bcrypt
