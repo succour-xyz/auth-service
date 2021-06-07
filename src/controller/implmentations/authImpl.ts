@@ -118,7 +118,7 @@ export default class Auth implements IAuth {
             return res.status(404).json({ message: EMAIL_NOT_FOUND }).end();
           }
         })
-        .catch((error: any) => {
+        .catch((error: unknown) => {
           if (error) {
             console.error(error);
           }
