@@ -4,18 +4,7 @@ import connect_redis from "connect-redis";
 import express, { NextFunction, Request, Response } from "express";
 import session from "express-session";
 import redis from "redis";
-import {
-  // DB_HOST,
-  // DB_NAME,
-  // DB_PASSWORD,
-  // DB_PORT,
-  // DB_TYPE,
-  // DB_USERNAME,
-  PORT,
-  REDIS_HOST,
-  REDIS_PORT,
-  SECRET,
-} from "./util/secrets";
+import { PORT, REDIS_HOST, REDIS_PORT, SECRET } from "./util/secrets";
 import { createConnection } from "typeorm";
 
 const RedisStore = connect_redis(session);
@@ -70,7 +59,3 @@ createConnection()
     });
   })
   .catch((error) => console.log("ERRRR", error));
-
-/**
- * Exporting for testing purpose
- */

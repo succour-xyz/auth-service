@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import e, { Request, Response } from "express";
+import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { error } from "winston";
 import {
@@ -12,7 +12,7 @@ import {
   ENCRYPTION_COMPARE_FAIL,
   ENCRYPTION_FAIL,
 } from "../../constants/errors";
-import { LoginType, SignUpBody } from "../../types/User/index";
+import { LoginType, SignUpBody } from "../../types/User";
 import { getRepository } from "typeorm";
 import { User } from "../../entity/User";
 import IAuth from "../IAuth";
@@ -24,15 +24,18 @@ declare module "express-session" {
 }
 
 export default class Auth implements IAuth {
+  /**
+   * @remarks
+   * Repository - User Repository
+   */
   private userRepository = getRepository(User);
 
   /**
    * Signup
-   * @static
-   * @param req
-   * @param res
+   * @param req - Signup Request
+   * @param res - Signup Response
    */
-  signUp: (req: e.Request, res: e.Response) => Promise<unknown> = async (
+  signUp: (req: Request, res: Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
@@ -62,7 +65,8 @@ export default class Auth implements IAuth {
               return res.status(409).end();
             }
           } else {
-            return res.sendStatus(406).json({ message: PASSWORD_MISMATCH });
+            res.sendStatus(406);
+            res.json({ message: PASSWORD_MISMATCH }).end();
           }
         })
         .catch((error) => {
@@ -74,14 +78,11 @@ export default class Auth implements IAuth {
   };
 
   /**
-   *  Logins a User
-   *
-   * @static
-   * @param {Request} req
-   * @param {Response} res
-   * @memberof Auth
+   * Login
+   * @param req - Login Request
+   * @param res - Login Response
    */
-  login: (req: e.Request, res: e.Response) => Promise<unknown> = async (
+  login: (req: Request, res: Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
@@ -128,11 +129,10 @@ export default class Auth implements IAuth {
 
   /**
    * Logout
-   * @static
-   * @param req
-   * @param res
+   * @param req - Logout Request
+   * @param res - Logout Response
    */
-  logout: (req: e.Request, res: e.Response) => void = (
+  logout: (req: Request, res: Response) => void = (
     req: Request,
     res: Response
   ) => {
