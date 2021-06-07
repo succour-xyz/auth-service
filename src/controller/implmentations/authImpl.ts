@@ -16,6 +16,7 @@ import { LoginType, SignUpBody } from "../../types/User";
 import { getRepository } from "typeorm";
 import { User } from "../../entity/User";
 import IAuth from "../IAuth";
+import { Service } from "typedi";
 declare module "express-session" {
   interface Session {
     isLoggedIn: boolean;
@@ -23,6 +24,7 @@ declare module "express-session" {
   }
 }
 
+@Service()
 export default class Auth implements IAuth {
   /**
    * @remarks
