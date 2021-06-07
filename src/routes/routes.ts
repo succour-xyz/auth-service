@@ -1,5 +1,5 @@
 import { AUTH, LOGIN, LOGOUT, SIGN_UP } from "../constants/routes";
-import Auth from "../controller/auth";
+import Auth from "../controller/implmentations/authImpl";
 
 export const Routes = [
   {
