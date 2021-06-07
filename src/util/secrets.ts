@@ -54,4 +54,4 @@ export const PORT = process.env.PORT || 3000;
 /**
  * Constant Db Type
  */
-export const DB_TYPE = process.env.DB_TYPE || "mysql";
+export const DB_TYPE = "mysql";

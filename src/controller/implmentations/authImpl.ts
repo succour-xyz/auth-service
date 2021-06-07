@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { Service } from "typedi";
-import { getRepository } from "typeorm";
+import { getConnection } from "typeorm";
 import { error } from "winston";
 import {
   ENCRYPTION_COMPARE_FAIL,
@@ -26,7 +26,8 @@ declare module "express-session" {
 
 @Service()
 export default class AuthImpl implements IAuth {
-  private userRepository = getRepository(User);
+  private userRepository = getConnection().getRepository(User);
+
   /**
    * Signup
    * @static
@@ -38,7 +39,7 @@ export default class AuthImpl implements IAuth {
     res: Response
   ): Promise<unknown> => {
     const body = req.body as SignUpBody;
-    const { name, email, password, confirmPassword } = body;
+    const { password, confirmPassword } = body;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

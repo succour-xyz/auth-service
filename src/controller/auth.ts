@@ -8,12 +8,13 @@ import {
   INVALID_EMAIL_OR_PASSWORD,
   PASSWORD_MISMATCH,
 } from "../constants/messages";
-import prisma from "../util/db";
 import {
   ENCRYPTION_COMPARE_FAIL,
   ENCRYPTION_FAIL,
 } from "./../constants/errors";
 import { LoginType, SignUpBody } from "./../types/User/index";
+import { getRepository } from "typeorm";
+import { User } from "../entity/User";
 declare module "express-session" {
   interface Session {
     isLoggedIn: boolean;
@@ -22,13 +23,15 @@ declare module "express-session" {
 }
 
 export default class Auth {
+  private userRepository = getRepository(User);
+
   /**
    * Signup
    * @static
    * @param req
    * @param res
    */
-  static signUp: (req: e.Request, res: e.Response) => Promise<unknown> = async (
+  signUp: (req: e.Request, res: e.Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
@@ -46,12 +49,10 @@ export default class Auth {
         .then(async (same) => {
           if (same) {
             try {
-              const result = await prisma.user.create({
-                data: {
-                  email,
-                  password: hashedPassword,
-                  name,
-                },
+              const result = await this.userRepository.save({
+                email,
+                password: hashedPassword,
+                name,
               });
 
               return res.sendStatus(201).json(result);
@@ -79,16 +80,16 @@ export default class Auth {
    * @param {Response} res
    * @memberof Auth
    */
-  static login: (req: e.Request, res: e.Response) => Promise<unknown> = async (
+  login: (req: e.Request, res: e.Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { email, password } = body;
     try {
-      await prisma.user
-        .findUnique({ where: { email } })
-        .then((user) => {
+      await this.userRepository
+        .findOne(email)
+        .then((user: User | undefined) => {
           if (user) {
             bcrypt
               .compare(password, user.password)
@@ -113,7 +114,7 @@ export default class Auth {
             return res.status(404).json({ message: EMAIL_NOT_FOUND }).end();
           }
         })
-        .catch((error) => {
+        .catch((error: any) => {
           if (error) {
             console.error(error);
           }
@@ -130,7 +131,7 @@ export default class Auth {
    * @param req
    * @param res
    */
-  static logout: (req: e.Request, res: e.Response) => void = (
+  logout: (req: e.Request, res: e.Response) => void = (
     req: Request,
     res: Response
   ) => {
