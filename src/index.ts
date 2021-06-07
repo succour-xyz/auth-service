@@ -11,7 +11,7 @@ const RedisStore = connect_redis(session);
 const redisClient = redis.createClient({ port: REDIS_PORT, host: REDIS_HOST });
 
 createConnection()
-  .then(async () => {
+  .then(() => {
     const app = express();
     app.use(express.json());
     app.use(
