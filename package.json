@@ -1,84 +1,86 @@
 {
-  "name": "succour.xyz-server",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/succour-xyz/succour.xyz-server.git",
-  "author": "Piyush Mehta <me@piyushmehta.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@prisma/client": "^2.24.0",
-    "bcrypt": "^5.0.1",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "connect-flash": "^0.1.1",
-    "connect-redis": "^6.0.0",
-    "csurf": "^1.11.0",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-flash": "^0.0.2",
-    "express-session": "^1.17.2",
-    "express-validator": "^6.11.1",
-    "mysql2": "^2.2.5",
-    "nodemailer": "^6.6.1",
-    "nodemailer-sendgrid-transport": "^0.2.0",
-    "redis": "^3.1.2",
-    "reflect-metadata": "^0.1.13",
-    "typedi": "^0.10.0",
-    "uid": "^2.0.0",
-    "winston": "^3.3.3"
-  },
-  "devDependencies": {
-    "@piyush97/eslint-config": "^1.1.2",
-    "@piyush97/prettier-config": "^1.1.2",
-    "@piyush97/typescript-node": "^1.1.2",
-    "@types/bcrypt": "^5.0.0",
-    "@types/chai": "^4.2.18",
-    "@types/chai-http": "^4.2.0",
-    "@types/connect-flash": "^0.0.36",
-    "@types/connect-redis": "^0.0.16",
-    "@types/csurf": "^1.11.1",
-    "@types/express-flash": "^0.0.2",
-    "@types/express-session": "^1.17.3",
-    "@types/express-validator": "^3.0.0",
-    "@types/mocha": "^8.2.2",
-    "@types/nodemailer": "^6.4.2",
-    "@types/redis": "^2.8.29",
-    "@types/sinon": "^10.0.2",
-    "chai": "^4.3.4",
-    "chai-http": "^4.3.0",
-    "codecov": "^3.8.2",
-    "husky": "^6.0.0",
-    "lint-staged": "^11.0.0",
-    "mocha": "^8.4.0",
-    "nyc": "^15.1.0",
-    "prettier-plugin-prisma": "^0.11.0",
-    "prisma": "^2.24.0",
-    "sinon": "^11.1.1",
-    "ts-node": "^10.0.0"
-  },
-  "scripts": {
-    "watch": "ts-node-dev --respawn index.dev.ts",
-    "format": "prettier --write .",
-    "dev": " tsnd --respawn --debug index.dev.ts ",
-    "build": "babel ./src -d ./dist --extensions .ts --copy-files",
-    "typecheck": "tsc",
-    "devStart": " nodemon --watch \"index.dev.ts\" --ext \"ts,json\"  --exec \"ts-node src/index.ts\"\n",
-    "start": "node dist/index.js",
-    "lint:base": "eslint --ext .js,.json,.ts",
-    "lint": "yarn lint:base src",
-    "prepare": "husky install",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }'  mocha -r ts-node/register 'test/**/*.ts' --exit",
-    "coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts' --exit && codecov --token=$CODECOV_TOKEN",
-    "report-coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts' --exit && nyc report --reporter=text-lcov > coverage.lcov"
-  },
-  "lint-staged": {
-    "src/**/*.{ts,js,json}": [
-      "yarn lint:base --fix"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn typecheck && lint-staged"
-    }
-  }
+   "name": "succour.xyz-server",
+   "version": "1.0.0",
+   "main": "index.js",
+   "repository": "https://github.com/succour-xyz/succour.xyz-server.git",
+   "author": "Piyush Mehta <me@piyushmehta.com>",
+   "license": "MIT",
+   "dependencies": {
+      "bcrypt": "^5.0.1",
+      "bcryptjs": "^2.4.3",
+      "body-parser": "^1.19.0",
+      "connect-flash": "^0.1.1",
+      "connect-redis": "^6.0.0",
+      "csurf": "^1.11.0",
+      "dotenv": "^10.0.0",
+      "express": "^4.17.1",
+      "express-flash": "^0.0.2",
+      "express-session": "^1.17.2",
+      "express-validator": "^6.11.1",
+      "mysql2": "^2.2.5",
+      "nodemailer": "^6.6.1",
+      "nodemailer-sendgrid-transport": "^0.2.0",
+      "redis": "^3.1.2",
+      "reflect-metadata": "^0.1.10",
+      "typedi": "^0.10.0",
+      "typeorm": "0.2.30",
+      "uid": "^2.0.0",
+      "winston": "^3.3.3",
+      "mysql": "^2.14.1"
+   },
+   "devDependencies": {
+      "@piyush97/eslint-config": "^1.1.2",
+      "@piyush97/prettier-config": "^1.1.2",
+      "@piyush97/typescript-node": "^1.1.2",
+      "@types/bcrypt": "^5.0.0",
+      "@types/chai": "^4.2.18",
+      "@types/chai-http": "^4.2.0",
+      "@types/connect-flash": "^0.0.36",
+      "@types/connect-redis": "^0.0.16",
+      "@types/csurf": "^1.11.1",
+      "@types/express-flash": "^0.0.2",
+      "@types/express-session": "^1.17.3",
+      "@types/express-validator": "^3.0.0",
+      "@types/mocha": "^8.2.2",
+      "@types/nodemailer": "^6.4.2",
+      "@types/redis": "^2.8.29",
+      "@types/reflect-metadata": "^0.1.0",
+      "@types/sinon": "^10.0.2",
+      "chai": "^4.3.4",
+      "chai-http": "^4.3.0",
+      "codecov": "^3.8.2",
+      "husky": "^6.0.0",
+      "lint-staged": "^11.0.0",
+      "mocha": "^8.4.0",
+      "nyc": "^15.1.0",
+      "sinon": "^11.1.1",
+      "ts-node": "3.3.0",
+      "@types/node": "^8.0.29",
+      "typescript": "3.3.3333"
+   },
+   "scripts": {
+      "watch": "ts-node-dev --respawn index.dev.ts",
+      "format": "prettier --write .",
+      "dev": " tsnd --respawn --debug index.dev.ts ",
+      "build": "babel ./src -d ./dist --extensions .ts --copy-files",
+      "typecheck": "tsc",
+      "devStart": " nodemon --watch \"index.dev.ts\" --ext \"ts,json\"  --exec \"ts-node src/index.ts\"\n",
+      "start": "ts-node src/index.ts",
+      "lint:base": "eslint --ext .js,.json,.ts",
+      "lint": "yarn lint:base src",
+      "prepare": "husky install",
+      "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }'  mocha -r ts-node/register 'test/**/*.ts' --exit",
+      "coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts' --exit && codecov --token=$CODECOV_TOKEN",
+      "report-coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc mocha -r ts-node/register 'test/**/*.ts' --exit && nyc report --reporter=text-lcov > coverage.lcov"
+   },
+   "lint-staged": {
+      "src/**/*.{ts,js,json}": [
+         "yarn lint:base --fix"
+      ]
+   },
+   "husky": {
+      "hooks": {
+         "pre-commit": "yarn typecheck && lint-staged"
+      }
+   }
 }

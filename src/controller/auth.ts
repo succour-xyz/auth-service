@@ -1,22 +1,19 @@
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { error } from "winston";
-import IAuth from "../IAuth";
 import {
   EMAIL_DUPLICATE,
   EMAIL_NOT_FOUND,
   INVALID_EMAIL_OR_PASSWORD,
   PASSWORD_MISMATCH,
-} from "../../constants/messages";
-import prisma from "../../util/db";
+} from "../constants/messages";
+import prisma from "../util/db";
 import {
   ENCRYPTION_COMPARE_FAIL,
   ENCRYPTION_FAIL,
-} from "../../constants/errors";
-import { LoginType, SignUpBody } from "../../types/User";
-import { Service } from "typedi";
-
+} from "./../constants/errors";
+import { LoginType, SignUpBody } from "./../types/User/index";
 declare module "express-session" {
   interface Session {
     isLoggedIn: boolean;
@@ -24,15 +21,14 @@ declare module "express-session" {
   }
 }
 
-@Service()
-export default class AuthImpl implements IAuth {
+export default class Auth {
   /**
    * Signup
    * @static
    * @param req
    * @param res
    */
-  signUp: (req: Request, res: Response) => Promise<unknown> = async (
+  static signUp: (req: e.Request, res: e.Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
@@ -57,26 +53,21 @@ export default class AuthImpl implements IAuth {
                   name,
                 },
               });
+
               return res.sendStatus(201).json(result);
             } catch (error) {
-              const err = new Error(EMAIL_DUPLICATE);
               res.json({ message: EMAIL_DUPLICATE });
-              res.status(409).end();
-              throw err;
+              return res.status(409).end();
             }
           } else {
-            const err = new Error(PASSWORD_MISMATCH);
-            res.sendStatus(406).json({ message: PASSWORD_MISMATCH });
-            throw err;
+            return res.sendStatus(406).json({ message: PASSWORD_MISMATCH });
           }
         })
         .catch((error) => {
-          const err = new Error(ENCRYPTION_FAIL);
-          console.error(ENCRYPTION_FAIL, error);
-          throw err;
+          return console.error(ENCRYPTION_FAIL, error);
         });
     } catch (error) {
-      return res.json({ message: error }).sendStatus(406);
+      return res.sendStatus(406).json({ message: "Error" });
     }
   };
 
@@ -86,18 +77,18 @@ export default class AuthImpl implements IAuth {
    * @static
    * @param {Request} req
    * @param {Response} res
-   * @memberof AuthImpl
+   * @memberof Auth
    */
-  login: (req: Request, res: Response) => Promise<unknown> = async (
+  static login: (req: e.Request, res: e.Response) => Promise<unknown> = async (
     req: Request,
     res: Response
-  ): Promise<void> => {
+  ): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { email, password } = body;
     try {
       await prisma.user
         .findUnique({ where: { email } })
-        .then((user: any) => {
+        .then((user) => {
           if (user) {
             bcrypt
               .compare(password, user.password)
@@ -105,32 +96,31 @@ export default class AuthImpl implements IAuth {
                 if (doMatch) {
                   req.session.isLoggedIn = true;
                   req.session.user = user;
+                  //Not required right now
+                  // console.log(req.csrfToken());
+                  // req.csrfToken();
+                  // res.cookie("XSRF-TOKEN", req.csrfToken());
                   res.sendStatus(200);
                 } else {
-                  const err = new Error(INVALID_EMAIL_OR_PASSWORD);
                   res.statusCode = 406;
                   res.json({ message: INVALID_EMAIL_OR_PASSWORD, error }).end();
-                  throw err;
                 }
               })
               .catch((error) => {
-                const err = new Error(ENCRYPTION_COMPARE_FAIL);
-                console.error(ENCRYPTION_COMPARE_FAIL, error);
-                throw err;
+                return console.error(ENCRYPTION_COMPARE_FAIL, error);
               });
           } else {
-            const err = new Error(EMAIL_NOT_FOUND);
-            res.json({ message: EMAIL_NOT_FOUND }).sendStatus(404).end();
-            throw err;
+            return res.status(404).json({ message: EMAIL_NOT_FOUND }).end();
           }
         })
-        .catch((error: any) => {
+        .catch((error) => {
           if (error) {
             console.error(error);
           }
         });
     } catch (error) {
-      console.error(EMAIL_NOT_FOUND, error);
+      res.json({ message: EMAIL_NOT_FOUND });
+      return res.status(404).end();
     }
   };
 
@@ -140,7 +130,7 @@ export default class AuthImpl implements IAuth {
    * @param req
    * @param res
    */
-  logout: (req: Request, res: Response) => void = (
+  static logout: (req: e.Request, res: e.Response) => void = (
     req: Request,
     res: Response
   ) => {

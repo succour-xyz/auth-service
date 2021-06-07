@@ -1,55 +1,21 @@
-import flash from "connect-flash";
-import connect_redis from "connect-redis";
-import express from "express";
-import session from "express-session";
-import redis from "redis";
-import HealthCheck from "./controller/implmentations/healthImpl";
-import AuthRoutes from "./routes/auth";
-import errorRoute from "./routes/error";
-import AdminRoutes from "./routes/user";
-import { PORT, REDIS_HOST, REDIS_PORT, SECRET } from "./util/secrets";
-import { ADMIN, AUTH, HEALTHCHECK } from "./constants/routes";
+import "reflect-metadata";
+import {createConnection} from "typeorm";
+import {User} from "./entity/User";
 
-const RedisStore = connect_redis(session);
-const redisClient = redis.createClient({ port: REDIS_PORT, host: REDIS_HOST });
+createConnection().then(async connection => {
 
-const app = express();
+    console.log("Inserting a new user into the database...");
+    const user = new User();
+    user.firstName = "Timber";
+    user.lastName = "Saw";
+    user.age = 25;
+    await connection.manager.save(user);
+    console.log("Saved a new user with id: " + user.id);
 
-app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-app.use(
-  session({
-    store: new RedisStore({ client: redisClient }),
-    saveUninitialized: false,
-    secret: SECRET,
-    resave: false,
-  })
-);
-app.use(flash());
-app.use(express.json());
+    console.log("Loading users from the database...");
+    const users = await connection.manager.find(User);
+    console.log("Loaded users: ", users);
 
-/**
- * - Public and protected routes
- */
-app.use(ADMIN, AdminRoutes);
-app.use(AUTH, AuthRoutes);
-/**
- * HealthCheck
- */
-app.get(HEALTHCHECK, HealthCheck.healthCheck);
-/**
- * Error Route
- */
-app.use(errorRoute);
-app.listen(PORT, () => {
-  console.info("Server running on port:", PORT);
-});
+    console.log("Here you can setup and run express/koa/any other framework.");
 
-/**
- * Exporting for testing purpose
- */
-export default app;
+}).catch(error => console.log(error));

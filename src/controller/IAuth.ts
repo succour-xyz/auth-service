@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export default interface IAuth {
   /**
@@ -13,7 +13,7 @@ export default interface IAuth {
    * @param req
    * @param res
    */
-  login(req: Request, res: Response): Promise<unknown>;
+  login(req: Request, res: Response, next: NextFunction): Promise<unknown>;
 
   /**
    * Logout

@@ -12,11 +12,11 @@ model User {
   email    String   @unique
   password String
   name     String?
-  college  College?
-  profile  Profile?
-  createdAt  DateTime    @default(now())
-  resetToken string?
-  resetTokenExpiry DateTime?    @default(now())
+//  college  College?
+//  profile  Profile?
+//  createdAt  DateTime    @default(now())
+//  resetToken String?
+//  resetTokenExpiry DateTime?    @default(now())
 }
 
 model Profile {
@@ -25,8 +25,8 @@ model Profile {
   updatedAt DateTime @updatedAt
   bio      String?
   username String  @unique
-  user     User?   @relation(fields: [userId], references: [id])
-  userId   Int     @unique
+//  user     User?   @relation(fields: [userId], references: [id])
+//  userId   Int     @unique
 }
 
 model College {
@@ -36,6 +36,6 @@ model College {
   title     String   @db.VarChar(255)
   content   String?
   published Boolean  @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int
+//  author    User?    @relation(fields: [authorId], references: [id])
+//  authorId  Int
 }
