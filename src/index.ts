@@ -36,11 +36,7 @@ createConnection()
         (app as any)[route.method](
           route.route,
           (req: Request, res: Response, next: NextFunction) => {
-            const result = new (route.controller as any)()[route.action](
-              req,
-              res,
-              next
-            );
+            const result = new route.controller()[route.action](req, res, next);
             if (result instanceof Promise) {
               result.then((result) =>
                 result !== null && result !== undefined
