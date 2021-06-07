@@ -89,7 +89,7 @@ export default class Auth implements IAuth {
     const { email, password } = body;
     try {
       await this.userRepository
-        .findOne(email)
+        .findOne({ email })
         .then((user: User | undefined) => {
           if (user) {
             bcrypt
