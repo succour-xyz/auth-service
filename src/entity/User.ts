@@ -1,30 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { IsEmail, Length } from "class-validator";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Profile } from "./Profile";
 
 @Entity()
 export class User {
-  /**
-   * Constructor
-   * @param id - Id
-   * @param name - Name
-   * @param email - Email
-   * @param password - Password
-   * @param createDate - CreatedDate
-   */
-  constructor(
-    id: number,
-    name: string,
-    email: string,
-    password: string,
-    createDate: Date
-  ) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.password = password;
-    this.createDate = createDate;
-  }
-
   /**
    * Number
    */
@@ -56,4 +41,12 @@ export class User {
    */
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   createDate: Date;
+  /**
+   *
+   * @type {Profile} - One to One Profile relation
+   * @memberof User
+   */
+  @OneToOne(() => Profile)
+  @JoinColumn()
+  profile: Profile;
 }

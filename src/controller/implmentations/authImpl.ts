@@ -1,24 +1,25 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
+import { Service } from "typedi";
+import { getRepository } from "typeorm";
 import { error } from "winston";
+import {
+  ENCRYPTION_COMPARE_FAIL,
+  ENCRYPTION_FAIL,
+} from "../../constants/errors";
 import {
   EMAIL_DUPLICATE,
   EMAIL_NOT_FOUND,
   INVALID_EMAIL_OR_PASSWORD,
   PASSWORD_MISMATCH,
 } from "../../constants/messages";
-import {
-  ENCRYPTION_COMPARE_FAIL,
-  ENCRYPTION_FAIL,
-} from "../../constants/errors";
-import { LoginType, SignUpBody } from "../../types/User";
-import { getRepository } from "typeorm";
 import { User } from "../../entity/User";
-import IAuth from "../IAuth";
-import { Service } from "typedi";
-import jwt from "jsonwebtoken";
+import { LoginType, SignUpBody } from "../../types/User";
 import { TOKEN_SECRET } from "../../util/secrets";
+import IAuth from "../IAuth";
+import { Profile } from "./../../entity/Profile";
 
 declare module "express-session" {
   interface Session {
@@ -34,6 +35,11 @@ export default class Auth implements IAuth {
    * Repository - User Repository
    */
   private userRepository = getRepository(User);
+  /**
+   * @remarks
+   * Repository - Profile Repository
+   */
+  private profileRepository = getRepository(Profile);
 
   /**
    * Signup
