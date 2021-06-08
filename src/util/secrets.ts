@@ -55,3 +55,7 @@ export const PORT = process.env.PORT || 3000;
  * Constant Db Type
  */
 export const DB_TYPE = "mysql";
+/**
+ * Constant Token Secret
+ */
+export const TOKEN_SECRET: string = process.env.TOKEN_SECRET || "secret";

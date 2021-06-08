@@ -2,13 +2,13 @@ import { expect } from "chai";
 import {
   ENCRYPTION_COMPARE_FAIL,
   ENCRYPTION_FAIL,
-} from "../src/constants/errors";
+} from "../../src/constants/errors";
 import {
   EMAIL_DUPLICATE,
   EMAIL_NOT_FOUND,
   ENTER_CORRECT_PASSWORD,
   PASSWORD_MISMATCH,
-} from "../src/constants/messages";
+} from "../../src/constants/messages";
 
 /**
  * Simple Constants Test

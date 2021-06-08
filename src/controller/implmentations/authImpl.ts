@@ -17,6 +17,9 @@ import { getRepository } from "typeorm";
 import { User } from "../../entity/User";
 import IAuth from "../IAuth";
 import { Service } from "typedi";
+import jwt from "jsonwebtoken";
+import { TOKEN_SECRET } from "../../util/secrets";
+
 declare module "express-session" {
   interface Session {
     isLoggedIn: boolean;
@@ -55,20 +58,22 @@ export default class Auth implements IAuth {
         .then(async (same) => {
           if (same) {
             try {
-              const result = await this.userRepository.save({
-                email,
-                password: hashedPassword,
-                name,
-              });
+              const result = await this.userRepository
+                .save({
+                  email,
+                  password: hashedPassword,
+                  name,
+                })
+                .catch((error) => console.error(error));
 
               return res.sendStatus(201).json(result);
             } catch (error) {
               res.json({ message: EMAIL_DUPLICATE });
-              return res.status(409).end();
+              return res.status(409);
             }
           } else {
             res.sendStatus(406);
-            res.json({ message: PASSWORD_MISMATCH }).end();
+            res.json({ message: PASSWORD_MISMATCH });
           }
         })
         .catch((error) => {
@@ -101,21 +106,21 @@ export default class Auth implements IAuth {
                 if (doMatch) {
                   req.session.isLoggedIn = true;
                   req.session.user = user;
-                  //Not required right now
-                  // console.log(req.csrfToken());
-                  // req.csrfToken();
-                  // res.cookie("XSRF-TOKEN", req.csrfToken());
-                  res.sendStatus(200);
+                  const token = jwt.sign(
+                    { id: user.id, email: user.email, name: user.name },
+                    TOKEN_SECRET
+                  );
+                  res.header("auth-token", token).send({ token });
                 } else {
                   res.statusCode = 406;
-                  res.json({ message: INVALID_EMAIL_OR_PASSWORD, error }).end();
+                  res.json({ message: INVALID_EMAIL_OR_PASSWORD, error });
                 }
               })
               .catch((error) => {
                 return console.error(ENCRYPTION_COMPARE_FAIL, error);
               });
           } else {
-            return res.status(404).json({ message: EMAIL_NOT_FOUND }).end();
+            return res.status(404).json({ message: EMAIL_NOT_FOUND });
           }
         })
         .catch((error: unknown) => {
@@ -125,7 +130,7 @@ export default class Auth implements IAuth {
         });
     } catch (error) {
       res.json({ message: EMAIL_NOT_FOUND });
-      return res.status(404).end();
+      return res.status(404);
     }
   };
 

@@ -26,3 +26,7 @@ export const RESET_PASSWORD = "/reset";
  * Constant Admin
  */
 export const ADMIN = "/admin";
+/**
+ * Constant Post
+ */
+export const POST = "post";
