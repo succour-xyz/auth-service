@@ -1,11 +1,11 @@
-import "reflect-metadata";
 import flash from "connect-flash";
 import connect_redis from "connect-redis";
 import express, { NextFunction, Request, Response } from "express";
 import session from "express-session";
 import redis from "redis";
-import { PORT, REDIS_HOST, REDIS_PORT, SECRET } from "./util/secrets";
+import "reflect-metadata";
 import { createConnection } from "typeorm";
+import { PORT, REDIS_HOST, REDIS_PORT, SECRET } from "./util/secrets";
 
 const RedisStore = connect_redis(session);
 const redisClient = redis.createClient({ port: REDIS_PORT, host: REDIS_HOST });

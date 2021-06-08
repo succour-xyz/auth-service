@@ -19,7 +19,6 @@ import { User } from "../../entity/User";
 import { LoginType, SignUpBody } from "../../types/User";
 import { TOKEN_SECRET } from "../../util/secrets";
 import IAuth from "../IAuth";
-import { Profile } from "./../../entity/Profile";
 
 declare module "express-session" {
   interface Session {
@@ -39,7 +38,6 @@ export default class Auth implements IAuth {
    * @remarks
    * Repository - Profile Repository
    */
-  private profileRepository = getRepository(Profile);
 
   /**
    * Signup

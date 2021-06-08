@@ -46,7 +46,7 @@ export class User {
    * @type {Profile} - One to One Profile relation
    * @memberof User
    */
-  @OneToOne(() => Profile)
+  @OneToOne(() => Profile, (profile) => profile.user) // specify inverse side as a second parameter
   @JoinColumn()
   profile: Profile;
 }

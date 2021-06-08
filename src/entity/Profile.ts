@@ -1,5 +1,6 @@
 import { IsEmail } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./User";
 
 @Entity()
 export class Profile {
@@ -26,4 +27,7 @@ export class Profile {
 
   @Column("boolean", { nullable: true })
   isPremium: boolean;
+
+  @OneToOne(() => User, (user) => user.profile) // specify inverse side as a second parameter
+  user: User;
 }
