@@ -1,29 +1,17 @@
-import { AUTH, LOGIN, LOGOUT, POST, SIGN_UP } from "../constants/routes";
+import { ADMIN, AUTH, GET_ALL, LOGIN, SIGN_UP } from "../constants/routes";
+import Admin from "../controller/implmentations/adminImpl";
+import Router from "express";
 import Auth from "../controller/implmentations/authImpl";
+const router = Router();
 
-export const Routes = [
-  {
-    method: POST,
-    route: AUTH + SIGN_UP,
-    controller: Auth,
-    action: "signUp",
-  },
-  {
-    method: POST,
-    route: AUTH + LOGIN,
-    controller: Auth,
-    action: "login",
-  },
-  {
-    method: POST,
-    route: AUTH + LOGOUT,
-    controller: Auth,
-    action: "logout",
-  },
-  {
-    method: POST,
-    route: AUTH + "/test",
-    controller: Auth,
-    action: "reset",
-  },
+/**
+ * Admin Routes
+ */
+export const AdminRoutes = router.get(ADMIN + GET_ALL, Admin.allUsers);
+/**
+ * Auth Routes
+ */
+export const AuthRoutes = [
+  router.all(AUTH + LOGIN, Auth.login),
+  router.post(AUTH + SIGN_UP, Auth.signUp),
 ];

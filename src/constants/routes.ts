@@ -23,6 +23,10 @@ export const SIGN_UP = "/signup";
  */
 export const RESET_PASSWORD = "/reset";
 /**
+ * Constant Get All
+ */
+export const GET_ALL = "/getall";
+/**
  * Constant Admin
  */
 export const ADMIN = "/admin";
@@ -30,3 +34,7 @@ export const ADMIN = "/admin";
  * Constant Post
  */
 export const POST = "post";
+/**
+ * Constant Get
+ */
+export const GET = "get";

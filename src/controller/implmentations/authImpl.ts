@@ -18,7 +18,6 @@ import {
 import { User } from "../../entity/User";
 import { LoginType, SignUpBody } from "../../types/User";
 import { TOKEN_SECRET } from "../../util/secrets";
-import IAuth from "../IAuth";
 
 declare module "express-session" {
   interface Session {
@@ -28,23 +27,13 @@ declare module "express-session" {
 }
 
 @Service()
-export default class Auth implements IAuth {
-  /**
-   * @remarks
-   * Repository - User Repository
-   */
-  private userRepository = getRepository(User);
-  /**
-   * @remarks
-   * Repository - Profile Repository
-   */
-
+export default class Auth {
   /**
    * Signup
    * @param req - Signup Request
    * @param res - Signup Response
    */
-  signUp: (req: Request, res: Response) => Promise<unknown> = async (
+  static signUp: (req: Request, res: Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
@@ -62,7 +51,7 @@ export default class Auth implements IAuth {
         .then(async (same) => {
           if (same) {
             try {
-              const result = await this.userRepository
+              const result = await getRepository(User)
                 .save({
                   email,
                   password: hashedPassword,
@@ -93,14 +82,14 @@ export default class Auth implements IAuth {
    * @param req - Login Request
    * @param res - Login Response
    */
-  login: (req: Request, res: Response) => Promise<unknown> = async (
+  static login: (req: Request, res: Response) => Promise<unknown> = async (
     req: Request,
     res: Response
   ): Promise<unknown> => {
     const body = req.body as SignUpBody;
     const { email, password } = body;
     try {
-      await this.userRepository
+      await getRepository(User)
         .findOne({ email })
         .then((user: User | undefined) => {
           if (user) {

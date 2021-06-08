@@ -13,7 +13,7 @@ export class Profile {
   /**
    * Email
    */
-  @Column("varchar", { nullable: false, unique: true })
+  @Column("varchar", { nullable: false, unique: true, length: 40 })
   @IsEmail()
   email: string;
   /**
