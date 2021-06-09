@@ -16,10 +16,25 @@ if (fs.existsSync(".env")) {
  */
 export const ENVIRONMENT: string = process.env.NODE_ENV || "dev";
 /**
- * Constant Database Url
+ * Constant Database Host
  */
-export const DATABASE_URL: string =
-  process.env.DATABASE_URL || "mysql://root:pass@localhost:3306";
+export const DB_HOST: string = process.env.DB_HOST || "localhost";
+/**
+ * Constant Database Port
+ */
+export const DB_PORT: number = Number(process.env.DB_PORT) || 3306;
+/**
+ * Constant Database Username
+ */
+export const DB_USERNAME: string = process.env.DB_USERNAME || "root";
+/**
+ * Constant Database Password
+ */
+export const DB_PASSWORD: string = process.env.DB_PASSWORD || "password";
+/**
+ * Constant Database Password
+ */
+export const DB_NAME: string = process.env.DB_NAME || "test";
 /**
  * Constant Secret
  */
@@ -36,3 +51,11 @@ export const REDIS_PORT: number = Number(String(process.env.REDIS_PORT)) | 6379;
  * Constant Application Port
  */
 export const PORT = process.env.PORT || 3000;
+/**
+ * Constant Db Type
+ */
+export const DB_TYPE = "mysql";
+/**
+ * Constant Token Secret
+ */
+export const TOKEN_SECRET: string = process.env.TOKEN_SECRET || "secret";
