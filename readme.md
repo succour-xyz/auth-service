@@ -1,4 +1,4 @@
-## Succour.XYZ server
+## Succour.XYZ Authentication Service
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![DeepSource](https://deepsource.io/gh/succour-xyz/succour.xyz-server.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/succour-xyz/succour.xyz-server/?ref=repository-badge)
